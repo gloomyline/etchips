@@ -13,13 +13,15 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    "import/extensions": [
-      "error",
-      "ignorePackages",
+    'import/extensions': [
+      'error',
+      'ignorePackages',
       {
-        "vue": "never",
-        "js": "never",
-      }
-    ]
+        vue: 'never',
+        js: 'never',
+      },
+    ],
+    'max-len': ['error', { code: 200, tabWidth: 2 }],
+    'linebreak-style': ['error', 'windows'],
   },
 };

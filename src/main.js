@@ -1,7 +1,9 @@
 import Vue from 'vue';
-import App from './App.vue';
+import App from './App';
 import router from './router';
-import './plugins/element.js';
+import './plugins/element';
+// register local components globally
+import './components';
 
 Vue.config.productionTip = false;
 
