@@ -44,6 +44,33 @@
         </el-container>
       </div>
     </div>
+    <div class="manufacturer">
+      <ul class="summary">
+        <li class="summary-item">
+          <div class="icon-box"><img src="@/assets/icon-count.png" width="50" height="50" class="icon"></div>
+          <p class="label">已有样品数量</p>
+          <p class="count">15,000</p>
+        </li>
+        <li class="summary-item">
+          <div class="icon-box"><img src="@/assets/icon-coperation.png" width="50" height="50" class="icon"></div>
+          <p class="label">客户合作</p>
+          <p class="count">2000+</p>
+        </li>
+        <li class="summary-item">
+          <div class="icon-box"><img src="@/assets/icon-like.png" width="50" height="50" class="icon"></div>
+          <p class="label">验真次数</p>
+          <p class="count">3,000</p>
+        </li>
+      </ul>
+      <div class="selected-ones">
+        <h3 class="title">精选制造商</h3>
+        <el-carousel arrow="always" trigger="click" height="160px" :loop="false" indicator-position="none">
+          <el-carousel-item v-for="(selected, index) in selecteds" :key="index">
+            <ul class="selected-list"><li class="selected-item" v-for="(item, idx) in selected" :key="idx"><img :src="item"></li></ul>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -92,6 +119,7 @@ const MATERIALS = [
 export default {
   name: 'Home',
   data() {
+    // simulate carousel in hot search
     const pics = [];
     /* eslint-disable no-plusplus */
     for (let i = 0; i < 4; ++i) {
@@ -103,8 +131,22 @@ export default {
       };
       pics.push(pic);
     }
+    // simulate carousel in manufacturer
+    const selecteds = [];
+    for (let i = 0; i < 3; i += 1) {
+      const selected = [
+        /* eslint-disable */
+        require('@/assets/icon-kemet.png'),
+        require('@/assets/icon-muruta.png'),
+        require('@/assets/icon-tdk.png'),
+        require('@/assets/icon-netsol.png'),
+        /* eslint-enable */
+      ];
+      selecteds.push(selected);
+    }
     return {
       pics,
+      selecteds,
       materials: MATERIALS,
     };
   },
@@ -114,6 +156,7 @@ export default {
 
 <style lang="stylus" scoped>
 .home
+  width: $screen-width
   .et-module-nav
     width: $screen-width
     height: 386px
@@ -178,10 +221,10 @@ export default {
         border-radius: 4px 4px
         border: 1px solid $black
   .hot-search
+    margin-bottom: 106px
     .title
       text-align: center
       font-size: 34px
-      font-weight: medium
       margin-bottom: 66px
     .search-wrap
       width: $middle-width
@@ -213,6 +256,58 @@ export default {
             font-size: 16px
             color: $grey4
             line-height: 1.6em
+  .manufacturer
+    position: relative
+    width: 100%
+    height: 600px
+    background-color: $black
+    .summary
+      width: $middle-width
+      margin: 0 auto
+      padding: 136px 132px 0 132px
+      .summary-item
+        display: inline-block
+        vertical-align: top
+        margin-right: 362px
+        text-align: center
+        &:last-child
+          margin-right: 0
+        .icon-box
+          width: 130px
+          height: 130px
+          padding-top: 40px
+          margin-bottom: 50px
+          border-radius: 50% 50%
+          background-color: #3F4955
+        .label
+          line-height: 30px
+          color: $white
+          font-size: 20px
+        .count
+          color: $white
+          font-size: 30px
+    .selected-ones
+      position: absolute
+      width: $middle-width
+      height: 268px
+      left: 50%
+      bottom: -120px
+      transform: translateX(-($middle-width/2))
+      background-image: url('../assets/bg-carousel.png')
+      background-size: 100% 100%
+      background-repeat: no-repeat
+      background-position: cover
+      .title
+        padding-top: 56px
+        padding-bottom: 24px
+        font-size: 28px
+        text-align: center
+        color: $white
+      .selected-list
+        display: flex
+        justify-content: space-around
+        align-items: center
+        height: 160px
 </style>
 
 <style lang="stylus">
