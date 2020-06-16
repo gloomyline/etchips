@@ -45,7 +45,7 @@ export default {
   background-color: $black
   .et-nav-wrap
     display: flex
-    max-width: $middle-width
+    width: 80%
     margin: 0 auto
     &.has-prefix
       padding-top: 70px
@@ -59,10 +59,10 @@ export default {
       margin: 0 auto
       .nav-links
         display: flex
-        margin-right: 180px
+        margin-right: 68px
         a
           display: inline-block
-          width: 160px
+          width: 102px
           height: 64px
           line-height: 64px
           text-align: center

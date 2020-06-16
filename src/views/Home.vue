@@ -22,19 +22,19 @@
       <h2 class="title">热门物料检索</h2>
       <div class="search-wrap">
         <el-container>
-          <el-aside class="search-left" width="320px">
-            <el-carousel height="864px" trigger="click" arrow="never">
+          <el-aside class="search-left" width="25%">
+            <el-carousel height="660px" trigger="click" arrow="never">
               <el-carousel-item v-for="(item, index) in pics" :key="index">
-                <img :src="item.img">
+                <img :src="item.img" height="660">
                 <h4 class="title">{{ item.title }}</h4>
                 <p class="desc">{{ item.desc }}</p>
               </el-carousel-item>
             </el-carousel>
           </el-aside>
-          <el-aside class="search-right" width="1024px">
+          <el-aside class="search-right" width="75%">
             <ul class="materials">
               <li class="material" v-for="(item, index) in materials" :key="index">
-                <img :src="item.icon" alt="">
+                <img :src="item.icon" alt="" width="74" height="56">
                 <h4 class="title">LMNOWMS3I</h4>
                 <p class="sub-title">检测次数</p>
                 <p class="detect-count">{{ item.count }}</p>
@@ -73,7 +73,33 @@
     </div>
     <div class="contact-us">
       <h2 class="title">联系我们</h2>
-      <div class="map-wrap"></div>
+      <div class="map-wrap" style="margin-bottom: 20px;">
+        <img class="img-map" src="@/assets/img-map.png">
+        <img class="icon-marker" src="@/assets/icon-marker.png" width="30" height="40">
+      </div>
+      <el-form label-position="left" label-width="80px" :model="form">
+        <el-row :gutter="20" style="width: 80%;margin: 0 auto;">
+          <el-col :span="12">
+            <el-form-item label="姓名">
+              <el-input v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱">
+              <el-input v-model="form.email"></el-input>
+            </el-form-item>
+            <el-form-item label="电话">
+              <el-input v-model="form.phone"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="建议">
+              <el-input v-model="form.advice" type="textarea" maxlength="50" show-word-limit></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary">提交</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
   </div>
 </template>
@@ -152,20 +178,22 @@ export default {
       pics,
       selecteds,
       materials: MATERIALS,
+      mapImg: null,
+      form: {
+        name: '',
+        email: '',
+        phone: '',
+        advice: '',
+      },
     };
   },
   components: { EtCarousel },
-  created() {
-    console.log('map_api_key', process.env.VUE_APP_MAP_API_KEY);
-  },
 };
 </script>
 
 <style lang="stylus" scoped>
 .home
-  width: $screen-width
   .et-module-nav
-    width: $screen-width
     height: 386px
     padding-top: 114px
     margin-bottom: 60px
@@ -173,11 +201,11 @@ export default {
     .modules
       display: flex
       justify-content: space-between
-      width: $middle-width
+      width: 80%
       margin: 0 auto
       .module
-        width: 426px
-        height: 214px
+        width: 320px
+        height: 180px
         text-align: center
         padding-top: 22px
         border-radius: 16px
@@ -195,9 +223,9 @@ export default {
           font-weight: 700
   .know-more
     position: relative
-    width: $middle-width
+    width: 80%
     margin: 0 auto
-    padding: 36px 0 26px 170px
+    padding: 36px 0 26px 80px
     margin-bottom: 78px
     background-image: url('../assets/bg-sub-title.png')
     background-size: 100% 100%
@@ -205,9 +233,9 @@ export default {
     background-repeat: no-repeat
     .more-box
       absolute: right top -20px
-      width: 738px
+      width: 560px
       height: 262px
-      padding: 78px 0 0 172px
+      padding: 78px 0 0 72px
       background-image: url('../assets/img-trapezoid-box.png')
       background-size: 100% 100%
       .title
@@ -234,19 +262,18 @@ export default {
       font-size: 34px
       margin-bottom: 66px
     .search-wrap
-      width: $middle-width
+      width: 80%
       margin: 0 auto
       .search-left
-        margin-right: 32px
+        margin-right: 20px
       .materials
         display: flex
         flex-wrap: wrap
-        width: 1024px
         .material
-          width: 320px
-          height: 260px
+          width: 220px
+          height: 180px
           margin: 0 30px 40px 0
-          padding-top: 46px
+          padding-top: 16px
           text-align: center
           cursor: pointer
           border-radius: 8px 8px
@@ -255,7 +282,7 @@ export default {
           &:nth-child(3n)
             margin-right: 0
           & > img
-            margin-bottom: 34px
+            margin-bottom: 14px
           .title
             font-size: 18px
             margin-bottom: 14px
@@ -270,13 +297,12 @@ export default {
     margin-bottom: 120px
     background-color: $black
     .summary
-      width: $middle-width
+      display: flex
+      justify-content: space-between
+      width: 80%
       margin: 0 auto
-      padding: 136px 132px 0 132px
+      padding: 136px 0 0 0
       .summary-item
-        display: inline-block
-        vertical-align: top
-        margin-right: 362px
         text-align: center
         &:last-child
           margin-right: 0
@@ -296,18 +322,18 @@ export default {
           font-size: 30px
     .selected-ones
       position: absolute
-      width: $middle-width
-      height: 268px
+      width: 80%
+      height: 238px
       left: 50%
       bottom: -120px
-      transform: translateX(-($middle-width/2))
+      transform: translateX(-50%)
       background-image: url('../assets/bg-carousel.png')
       background-size: 100% 100%
       background-repeat: no-repeat
       background-position: cover
       .title
-        padding-top: 56px
-        padding-bottom: 24px
+        padding-top: 36px
+        padding-bottom: 14px
         font-size: 28px
         text-align: center
         color: $white
@@ -316,6 +342,25 @@ export default {
         justify-content: space-around
         align-items: center
         height: 160px
+  .contact-us
+    width: 100%
+    .title
+      text-align: center
+      padding-top: 66px
+      padding-bottom: 58px
+      font-size: 32px
+    .map-wrap
+      position: relative
+      width: 100%
+      .img-map
+        width: 100%
+      .icon-marker
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%, 0)
+        width: 30px
+        height: 40px
 </style>
 
 <style lang="stylus">
@@ -323,12 +368,16 @@ export default {
   .search-left
     .el-carousel__item
       .title
-        absolute: left 56px bottom 80px
+        absolute: left 56px bottom 60px
         font-size: 24px
         color: $white
       .desc
-        absolute: left 56px bottom 108px
+        absolute: left 56px bottom 60px
+        width: 160px
         line-height: 1.2em
-        font-size: 20px
+        font-size: 18px
         color: $grey3
+    .el-carousel__indicators
+      .el-carousel__button
+        width: 10px
 </style>

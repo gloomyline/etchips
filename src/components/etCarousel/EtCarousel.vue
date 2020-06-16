@@ -12,7 +12,7 @@
       </div>
       <el-carousel height="580px" arrow="always" :autoplay="false">
         <el-carousel-item v-for="(item, index) in imgs" :key="index">
-          <img :src="item" width="1378" height="580">
+          <img :src="item" width="100%" height="580px">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -40,15 +40,14 @@ export default {
 <style lang="stylus" scoped>
 .et-carousel
   position: relative
-  width: $screen-width
   height: 614px
   background-color: $black
   .carousel-wrap
     position: absolute
     left: 50%
-    top: 794px
-    width: 1378px
-    margin: -689px
+    top: 100px
+    width: 80%
+    transform: translateX(-50%)
     .suspend
       absolute: left 274px top
       padding-top: 104px
@@ -105,7 +104,7 @@ export default {
           height: 12px
           border-radius: 50%
   .el-input
-    width: 730px
+    width: 608px
     input
       height: 80px
       font-size: 28px

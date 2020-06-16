@@ -42,34 +42,34 @@ export default {
 </script>
 
 <style lang="stylus">
-  .et-header
-    height: 80px
-    color: $white
-    background-color: $black
-    .contacts-wrap
-      max-width: $middle-width
-      margin: 0 auto
-      .contacts,.other-contacts
-        display: flex
-        align-items: center
-        height: 80px
-      .contacts .contact
-        margin-right: 80px
-      .other-contacts
-        justify-content: flex-end
-        .other-contact
-          height: 100%
-          font-size: 0
-          &:first-child
-            margin-right: 68px
-          .contact-text
-            display: inline-block
-            vertical-align: middle
-            line-height: 80px
-            margin-right: 8px
-            font-size: 20px
-          .icon
-            display: inline-block
-            vertical-align: middle
-            line-height: 80px
+.et-header
+  height: 80px
+  color: $white
+  background-color: $black
+  .contacts-wrap
+    width: 80%
+    margin: 0 auto
+    .contacts,.other-contacts
+      display: flex
+      align-items: center
+      height: 80px
+    .contacts .contact
+      margin-right: 80px
+    .other-contacts
+      justify-content: flex-end
+      .other-contact
+        height: 100%
+        font-size: 0
+        &:first-child
+          margin-right: 68px
+        .contact-text
+          display: inline-block
+          vertical-align: middle
+          line-height: 80px
+          margin-right: 8px
+          font-size: 20px
+        .icon
+          display: inline-block
+          vertical-align: middle
+          line-height: 80px
 </style>

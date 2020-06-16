@@ -16,5 +16,7 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  width: $screen-width
+  width: 100%
+  min-width: $screen-width
+  margin: 0 auto
 </style>
