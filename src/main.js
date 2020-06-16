@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import './plugins/axios';
 import './plugins/element';
 // register local components globally
 import './components';

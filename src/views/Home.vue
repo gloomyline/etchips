@@ -71,6 +71,10 @@
         </el-carousel>
       </div>
     </div>
+    <div class="contact-us">
+      <h2 class="title">联系我们</h2>
+      <div class="map-wrap"></div>
+    </div>
   </div>
 </template>
 
@@ -151,6 +155,9 @@ export default {
     };
   },
   components: { EtCarousel },
+  created() {
+    console.log('map_api_key', process.env.VUE_APP_MAP_API_KEY);
+  },
 };
 </script>
 
@@ -260,6 +267,7 @@ export default {
     position: relative
     width: 100%
     height: 600px
+    margin-bottom: 120px
     background-color: $black
     .summary
       width: $middle-width
