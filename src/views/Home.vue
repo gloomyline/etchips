@@ -73,11 +73,11 @@
     </div>
     <div class="contact-us">
       <h2 class="title">联系我们</h2>
-      <div class="map-wrap" style="margin-bottom: 20px;">
+      <div class="map-wrap">
         <img class="img-map" src="@/assets/img-map.png">
         <img class="icon-marker" src="@/assets/icon-marker.png" width="30" height="40">
       </div>
-      <el-form label-position="left" label-width="80px" :model="form">
+      <el-form style="padding-top: 20px; background: #F5F6FA;" label-position="left" label-width="80px" :model="form">
         <el-row :gutter="20" style="width: 80%;margin: 0 auto;">
           <el-col :span="12">
             <el-form-item label="姓名">
