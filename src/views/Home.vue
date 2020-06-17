@@ -101,6 +101,7 @@
         </el-row>
       </el-form>
     </div>
+    <et-footer></et-footer>
   </div>
 </template>
 
