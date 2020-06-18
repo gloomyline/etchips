@@ -7,7 +7,10 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home'),
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "Home" */ '@/views/Home'),
   },
   {
     path: '/results',
@@ -15,12 +18,14 @@ const routes = [
     component: () => import('@/views/SearchResults'),
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/details',
+    name: 'GoodDetails',
+    component: () => import('@/views/GoodDetails'),
+  },
+  {
+    path: '/detect',
+    name: 'Detect',
+    component: () => import('@/views/Detect.vue'),
   },
 ];
 
@@ -28,6 +33,16 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const predefinedRoutes = router.options.routes;
+  const routeNames = predefinedRoutes.map((route) => route.name);
+  if (routeNames.indexOf(to.name) < 0) {
+    next({ path: from.path });
+  } else {
+    next();
+  }
 });
 
 export default router;

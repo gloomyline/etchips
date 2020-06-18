@@ -16,10 +16,10 @@
       </div>
       <div class="nav-with-login">
         <ul class="nav-links">
-          <li class="nav-link"><router-link class="active" to="/">首页</router-link></li>
-          <li class="nav-link"><router-link to="/detect">委托检测</router-link></li>
-          <li class="nav-link"><router-link to="/customerService">客户服务</router-link></li>
-          <li class="nav-link"><router-link to="/factoryService">原厂服务</router-link></li>
+          <li class="nav-link"><router-link :class="classMap('Home')" to="/">首页</router-link></li>
+          <li class="nav-link"><router-link :class="classMap('Detect')" to="/detect">委托检测</router-link></li>
+          <li class="nav-link"><router-link :class="classMap('Customer')" to="/customerService">客户服务</router-link></li>
+          <li class="nav-link"><router-link :class="classMap('Factory')" to="/factoryService">原厂服务</router-link></li>
         </ul>
         <div class="btn-login">
           <span class="label">注册/登录</span>
@@ -35,6 +35,15 @@ export default {
   name: 'EtNav',
   props: {
     hasPrefix: Boolean,
+  },
+  methods: {
+    classMap(routeName) {
+      const currentRouteName = this.$route.name;
+      if (routeName === 'Home' && (currentRouteName === 'SearchResults' || currentRouteName === 'GoodDetails')) {
+        return { active: true };
+      }
+      return { active: routeName === this.$route.name };
+    },
   },
 };
 </script>
