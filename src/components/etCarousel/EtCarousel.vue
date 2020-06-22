@@ -2,7 +2,7 @@
   <div class="et-carousel">
     <div class="carousel-wrap">
       <div class="suspend">
-        <h2 class="title">即刻了解任何电子芯片</h2>
+        <h2 class="title" @click="gotoSearchResults">即刻了解任何电子芯片</h2>
         <el-input class="search" suffix-icon="el-icon-search" placeholder="请输入产品料号"></el-input>
         <div class="material-upload">
           <span class="btn-upload" @click="selectFile">上传物料清单</span>
@@ -32,6 +32,9 @@ export default {
   methods: {
     selectFile() {
       this.$refs.file.click();
+    },
+    gotoSearchResults() {
+      this.$router.push({ name: 'SearchResults' });
     },
   },
 };

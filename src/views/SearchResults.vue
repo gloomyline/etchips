@@ -27,7 +27,9 @@
             <el-table-column label="图片" align="center" width="80">
               <template slot-scope="scope"><img :src="scope.row.img" alt="" width="64" height="64"></template>
             </el-table-column>
-            <el-table-column label="物料" align="center" min-width="100" prop="name"></el-table-column>
+            <el-table-column label="物料" align="center" min-width="100">
+              <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.goodId)">{{ scope.row.name }}</a></template>
+            </el-table-column>
             <el-table-column label="品牌" align="center" min-width="60" prop="brand"></el-table-column>
             <el-table-column label="规格书" align="center" min-width="160" prop="specification"></el-table-column>
             <el-table-column label="图片组数" align="center" min-width="60" prop="pictureGroups"></el-table-column>
@@ -37,11 +39,13 @@
             </el-table-column>
           </el-table>
            <el-pagination
+            class="align-center"
             @current-change="handleCurrentChange"
             :current-page.sync="currentPage"
             :page-size="10"
             layout="prev, pager, next, jumper"
             :total="100"
+            style="padding-top: 10px;"
             hide-on-single-page>
           </el-pagination>
         </div>
@@ -109,6 +113,9 @@ export default {
     },
     handleCurrentChange(page) {
       console.log(`当前页: ${page}`);
+    },
+    gotoGoodDetails(goodId) {
+      this.$router.push({ name: 'GoodDetails', params: { goodId } });
     },
   },
 };

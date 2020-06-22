@@ -1,5 +1,6 @@
 export default [
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -8,6 +9,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -16,6 +18,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -24,6 +27,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -32,6 +36,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -40,6 +45,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -48,6 +54,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -56,6 +63,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -64,6 +72,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -72,6 +81,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
@@ -80,6 +90,7 @@ export default [
     hasDetected: true,
   },
   {
+    goodId: 'hsdfadkfje23123sakdfj',
     img: '',
     name: 'LM2938IMPX-5.0/NOPB',
     brand: 'a',
