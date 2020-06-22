@@ -18,8 +18,9 @@ const routes = [
     component: () => import('@/views/SearchResults'),
   },
   {
-    path: '/details/:goodId"',
+    path: '/details/:goodId?',
     name: 'GoodDetails',
+    props: true,
     component: () => import('@/views/GoodDetails'),
   },
   {
@@ -30,7 +31,9 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  // use hash instead of history to avoid accessing route with relative path
+  // https://cli.vuejs.org/zh/config/#publicpath
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes,
 });

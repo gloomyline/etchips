@@ -1,5 +1,7 @@
 <template lang="html">
   <div class="material-detail">
+    <et-nav></et-nav>
+    <et-search-box></et-search-box>
     <div id="material-top-image" class="material-top-image">
       <div class="top-image"></div>
     </div>
@@ -89,7 +91,7 @@ export default {
     background-position: center;
     margin: 0 auto;
     background-size: 100% 100%;
-    // background-image:url('../assets/bg_materialDetail.png')
+    background-image:url('../assets/bg_materialDetail.png')
 
 .material-container
   position: relative;
@@ -133,7 +135,7 @@ export default {
         background-position: center;
         margin: 0 auto;
         background-size: 100% 100%;
-        // background-image:url('../assets/bg_materialDetail.png')
+        background-image:url('../assets/bg_materialDetail.png')
     .material-bottom-right
       float: right;
       width: 50%;

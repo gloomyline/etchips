@@ -14,7 +14,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <div class="nav-with-login">
+      <div class="nav-with-login" :class="{'no-prefix': !hasPrefix}">
         <ul class="nav-links">
           <li class="nav-link"><router-link :class="classMap('Home')" to="/">首页</router-link></li>
           <li class="nav-link"><router-link :class="classMap('Detect')" to="/detect">委托检测</router-link></li>
@@ -67,6 +67,8 @@ export default {
         margin-right: 32px
     .nav-with-login
       display: flex
+      &.no-prefix
+        margin: 0 auto
       .nav-links
         display: flex
         margin-right: 48px
