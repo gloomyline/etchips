@@ -10,9 +10,9 @@
           <p class="tip">请从本地上传您的BOM以获得芯片的详细资料（接受格式：.csv,.tsv,.xls,.xlsx,Eagle,.sch,KiCad.sch,.SchDoc）</p>
         </div>
       </div>
-      <el-carousel height="580px" arrow="always" :autoplay="false">
+      <el-carousel height="360px" arrow="always" :autoplay="true">
         <el-carousel-item v-for="(item, index) in imgs" :key="index">
-          <img :src="item" width="100%" height="580px">
+          <img :src="item" width="100%" height="360px">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -40,25 +40,25 @@ export default {
 <style lang="stylus" scoped>
 .et-carousel
   position: relative
-  height: 614px
+  height: 240px
   background-color: $black
   .carousel-wrap
     position: absolute
     left: 50%
-    top: 100px
-    width: 80%
+    top: 20px
+    width: 70%
     transform: translateX(-50%)
     .suspend
-      absolute: left 274px top
-      padding-top: 104px
+      absolute: left 190px top
+      padding-top: 48px
       z-index: 10
       .title
-        margin-bottom: 52px
-        font-size: 42px
+        margin-bottom: 24px
+        font-size: 28px
         font-weight: bold
         color: $white
       .material-upload
-        margin-top: 40px
+        padding-top: 40px
         color: $white
         font-size: 0
         cursor: pointer
@@ -70,15 +70,15 @@ export default {
           line-height: 36px
           text-align: center
           margin-right: 16px
-          font-size: 20px
+          font-size: 18px
           border: 1px dashed $white
           border-radius: 4px 4px
         .tip
           display: inline-block
           vertical-align: top
-          width: 476px
-          line-height: 1.2em
-          font-size: 16px
+          width: 376px
+          line-height: 1.4em
+          font-size: 14px
 </style>
 
 <style lang="stylus">
@@ -88,13 +88,13 @@ export default {
       &:hover
         background-color: $blue
     .el-carousel__arrow--left
-      left: 280px
-      top: 437px
+      left: 220px
+      top: 280px
     .el-carousel__arrow--right
-      left: 359px
-      top: 437px
+      left: 298px
+      top: 280px
     .el-carousel__indicators
-      left: 132px
+      left: 96px
       top: 104px
       .el-carousel__indicator
         display: block
@@ -104,14 +104,14 @@ export default {
           height: 12px
           border-radius: 50%
   .el-input
-    width: 608px
+    width: 520px
     input
-      height: 80px
-      font-size: 28px
-      border-radius: 36px 36px
+      height: 48px
+      font-size: 18px
+      border-radius: 24px 24px
     .el-input__suffix
-      right: 20px
+      right: 10px
     .el-input__icon
-      line-height: 80px
-      font-size: 36px
+      line-height: 48px
+      font-size: 24px
 </style>

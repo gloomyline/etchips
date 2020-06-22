@@ -2,7 +2,7 @@
   <div class="et-nav">
     <div class="et-nav-wrap" :class="{'has-prefix': hasPrefix}">
       <div class="prefix" v-if="hasPrefix">
-        <img class="logo" src="./icon-et-logo.png" width="258" height="64">
+        <img class="logo" src="./icon-et-logo.png" width="160" height="36">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             <img class="flag" src="./icon-china-flag.png" width="30" height="30">
@@ -54,52 +54,55 @@ export default {
   background-color: $black
   .et-nav-wrap
     display: flex
-    width: 80%
+    justify-content: space-between
+    width: 70%
     margin: 0 auto
     &.has-prefix
-      padding-top: 70px
+      padding-top: 10px
     .prefix
       height: 64px
+      padding-top: 14px
       .logo
         vertical-align: middle
-        margin-right: 64px
+        margin-right: 32px
     .nav-with-login
       display: flex
-      margin: 0 auto
       .nav-links
         display: flex
-        margin-right: 68px
+        margin-right: 48px
         a
           display: inline-block
-          width: 102px
+          width: 86px
           height: 64px
           line-height: 64px
           text-align: center
-          font-size: 18px
+          font-size: 16px
           color: $text-grey
           text-decoration: none
           &.active
-            font-size: 20px
+            font-size: 18px
             color: $white
       .btn-login
-        width: 176px
-        height: 50px
-        padding-left: 32px
+        width: 132px
+        height: 40px
+        padding-left: 10px
         margin-top: 7px
+        cursor: pointer
         border-radius: 25px 25px
         background-color: $red
         .label
           display: inline-block
-          line-height: 50px
+          line-height: 40px
+          font-size: 14px
         .icon-wrap
           display: inline-block
           vertical-align: top
-          width: 42px
-          height: 42px
-          line-height: 42px
+          width: 32px
+          height: 32px
+          line-height: 32px
           text-align: center
           margin-top: 4px
-          margin-left: 20px
+          margin-left: 24px
           border-radius: 50%
           background-color: $red2
 </style>

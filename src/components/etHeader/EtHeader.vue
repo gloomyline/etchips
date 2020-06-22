@@ -3,9 +3,9 @@
     <el-row class="contacts-wrap">
       <el-col :span="12">
         <ul class="contacts">
-          <li class="contact"><a href="#" class="contact-link"><img src="./icon-weibo-grey.png" class="icon" width="35" height="27"></a></li>
-          <li class="contact"><a href="#" class="contact-link"><img src="./icon-wechat-grey.png" class="icon" width="31" height="25"></a></li>
-          <li class="contact"><a href="#" class="contact-link"><img src="./icon-qq-grey.png" class="icon" width="24" height="26"></a></li>
+          <li class="contact"><a href="#" class="contact-link"><img src="./icon-weibo-grey.png" class="icon" width="24" height="24"></a></li>
+          <li class="contact"><a href="#" class="contact-link"><img src="./icon-wechat-grey.png" class="icon" width="24" height="24"></a></li>
+          <li class="contact"><a href="#" class="contact-link"><img src="./icon-qq-grey.png" class="icon" width="24" height="24"></a></li>
         </ul>
       </el-col>
       <el-col :span="12">
@@ -43,16 +43,15 @@ export default {
 
 <style lang="stylus">
 .et-header
-  height: 80px
   color: $white
   background-color: $black
   .contacts-wrap
-    width: 80%
+    width: 70%
     margin: 0 auto
     .contacts,.other-contacts
       display: flex
       align-items: center
-      height: 80px
+      height: 60px
     .contacts .contact
       margin-right: 80px
     .other-contacts
@@ -65,11 +64,13 @@ export default {
         .contact-text
           display: inline-block
           vertical-align: middle
-          line-height: 80px
+          line-height: 60px
           margin-right: 8px
-          font-size: 20px
+          font-size: 16px
         .icon
           display: inline-block
           vertical-align: middle
-          line-height: 80px
+          line-height: 60px
+          width: 24px
+          height: 24px
 </style>

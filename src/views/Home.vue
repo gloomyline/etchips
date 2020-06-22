@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="know-more">
-      <img src="@/assets/img-chip.png" width="268" height="156">
+      <img src="@/assets/img-chip.png" width="168" height="90">
       <div class="more-box">
         <h2 class="title">文字文字</h2>
         <h3 class="sub-title">副标题副标题副标题副标题副副标题副标题副标题副标题副标题副标题副标题副标题标题副标题副标题副标题副标题副标题副标题副标题</h3>
@@ -23,9 +23,9 @@
       <div class="search-wrap">
         <el-container>
           <el-aside class="search-left" width="25%">
-            <el-carousel height="660px" trigger="click" arrow="never">
+            <el-carousel height="580px" trigger="click" arrow="never">
               <el-carousel-item v-for="(item, index) in pics" :key="index">
-                <img :src="item.img" height="660">
+                <img :src="item.img" width="100%" height="580">
                 <h4 class="title">{{ item.title }}</h4>
                 <p class="desc">{{ item.desc }}</p>
               </el-carousel-item>
@@ -34,7 +34,7 @@
           <el-aside class="search-right" width="75%">
             <ul class="materials">
               <li class="material" v-for="(item, index) in materials" :key="index">
-                <img :src="item.icon" alt="" width="74" height="56">
+                <img :src="item.icon" alt="" width="56" height="48">
                 <h4 class="title">LMNOWMS3I</h4>
                 <p class="sub-title">检测次数</p>
                 <p class="detect-count">{{ item.count }}</p>
@@ -195,18 +195,18 @@ export default {
 <style lang="stylus" scoped>
 .home
   .et-module-nav
-    height: 386px
-    padding-top: 114px
-    margin-bottom: 60px
+    height: 346px
+    padding-top: 158px
+    margin-bottom: 40px
     border-bottom: 2px solid $grey2
     .modules
       display: flex
       justify-content: space-between
-      width: 80%
+      width: 70%
       margin: 0 auto
       .module
-        width: 320px
-        height: 180px
+        width: 240px
+        height: 160px
         text-align: center
         padding-top: 22px
         border-radius: 16px
@@ -217,53 +217,59 @@ export default {
           height: 100%
           text-decoration: none
         .icon
-          margin-bottom: 34px
+          margin-bottom: 20px
         .label
           color: $black
-          font-size: 30px
+          font-size: 24px
           font-weight: 700
   .know-more
     position: relative
-    width: 80%
+    width: 70%
+    height: 180px
+    line-height: 180px
     margin: 0 auto
-    padding: 36px 0 26px 80px
-    margin-bottom: 78px
+    padding-left: 64px
+    padding-top: 42px
+    margin-bottom: 40px
     background-image: url('../assets/bg-sub-title.png')
     background-size: 100% 100%
     background-position: cover
     background-repeat: no-repeat
     .more-box
       absolute: right top -20px
-      width: 560px
-      height: 262px
-      padding: 78px 0 0 72px
+      width: 400px
+      height: 220px
+      padding-left: 60px
+      padding-right: 20px
       background-image: url('../assets/img-trapezoid-box.png')
       background-size: 100% 100%
       .title
+        height: 80px
+        line-height: 80px
         font-weight: 600
-        font-size: 24px
-        margin-bottom: 18px
-      .sub-title
-        width: 292px
         font-size: 20px
+      .sub-title
+        line-height: 1.2em
+        font-size: 14px
         color: $grey3
       .btn-more
-        absolute: right 86px bottom 48px
-        width: 112px
-        height: 34px
-        line-height: 34px
+        absolute: right 48px bottom 32px
+        width: 96px
+        height: 28px
+        font-size: 16px
+        line-height: 28px
         text-align: center
         cursor: pointer
         border-radius: 4px 4px
         border: 1px solid $black
   .hot-search
-    margin-bottom: 106px
+    margin-bottom: 68px
     .title
       text-align: center
-      font-size: 34px
-      margin-bottom: 66px
+      font-size: 28px
+      margin-bottom: 48px
     .search-wrap
-      width: 80%
+      width: 70%
       margin: 0 auto
       .search-left
         margin-right: 20px
@@ -271,9 +277,9 @@ export default {
         display: flex
         flex-wrap: wrap
         .material
-          width: 220px
+          width: 210px
           height: 180px
-          margin: 0 30px 40px 0
+          margin: 0 10px 20px 0
           padding-top: 16px
           text-align: center
           cursor: pointer
@@ -294,37 +300,37 @@ export default {
   .manufacturer
     position: relative
     width: 100%
-    height: 600px
+    height: 400px
     margin-bottom: 120px
     background-color: $black
     .summary
       display: flex
       justify-content: space-between
-      width: 80%
+      width: 70%
       margin: 0 auto
-      padding: 136px 0 0 0
+      padding: 72px 0 0 0
       .summary-item
         text-align: center
         &:last-child
           margin-right: 0
         .icon-box
-          width: 130px
-          height: 130px
-          padding-top: 40px
-          margin-bottom: 50px
+          width: 96px
+          height: 96px
+          padding-top: 23px
+          margin-bottom: 32px
           border-radius: 50% 50%
           background-color: #3F4955
         .label
           line-height: 30px
           color: $white
-          font-size: 20px
+          font-size: 16px
         .count
           color: $white
           font-size: 30px
     .selected-ones
       position: absolute
       width: 80%
-      height: 238px
+      height: 208px
       left: 50%
       bottom: -120px
       transform: translateX(-50%)
@@ -333,9 +339,9 @@ export default {
       background-repeat: no-repeat
       background-position: cover
       .title
-        padding-top: 36px
-        padding-bottom: 14px
-        font-size: 28px
+        padding-top: 16px
+        padding-bottom: 8px
+        font-size: 24px
         text-align: center
         color: $white
       .selected-list
