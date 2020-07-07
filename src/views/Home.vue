@@ -2,7 +2,7 @@
   <div class="home">
     <et-header></et-header>
     <et-nav has-prefix></et-nav>
-    <et-carousel></et-carousel>
+    <et-carousel :carousel-data="carouselData"></et-carousel>
     <div class="et-module-nav">
       <ul class="modules">
         <li class="module"><a href="#"><img src="@/assets/icon-detect.png" class="icon" width="64" height="64"><p class="label">物料验真</p></a></li>
@@ -107,6 +107,7 @@
 
 <script>
 import EtCarousel from '@/components/etCarousel/EtCarousel';
+import api from '@/api';
 /* eslint-disable */
 const MATERIALS = [
   {
@@ -176,6 +177,7 @@ export default {
       selecteds.push(selected);
     }
     return {
+      carouselData: [],
       pics,
       selecteds,
       materials: MATERIALS,
@@ -189,6 +191,10 @@ export default {
     };
   },
   components: { EtCarousel },
+  async created() {
+    const data = await api.home.fetchCarousels();
+    this.carouselData = data.map((item) => item.path);
+  },
 };
 </script>
 

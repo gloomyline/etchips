@@ -4,6 +4,16 @@ module.exports = {
   publicPath: './',
   devServer: {
     open: true,
+    proxy: {
+      '/api': {
+        target: 'http://www.etchips-dev.com:8108',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
+    }
   },
   pluginOptions: {
     'style-resources-loader': {

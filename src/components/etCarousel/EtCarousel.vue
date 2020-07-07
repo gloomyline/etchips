@@ -10,9 +10,9 @@
           <p class="tip">请从本地上传您的BOM以获得芯片的详细资料（接受格式：.csv,.tsv,.xls,.xlsx,Eagle,.sch,KiCad.sch,.SchDoc）</p>
         </div>
       </div>
-      <el-carousel height="360px" arrow="always" :autoplay="true">
-        <el-carousel-item v-for="(item, index) in imgs" :key="index">
-          <img :src="item" width="100%" height="360px">
+      <el-carousel height="360px" arrow="always" :autoplay="false">
+        <el-carousel-item v-for="(item, index) in carouselData" :key="index">
+          <div class="img-wrap"><img :src="item"></div>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -22,12 +22,19 @@
 <script>
 export default {
   name: 'EtCarouse',
+  props: {
+    carouselData: {
+      type: Array,
+      default() {
+        /* eslint-disable global-require */
+        return [require('./img-carousel-demo.png'), require('./img-carousel-demo.png'), require('./img-carousel-demo.png')];
+      },
+    },
+  },
   data() {
-    /* eslint-disable global-require */
-    const img = require('./img-carousel-demo.png');
-    return {
-      imgs: [img, img, img],
-    };
+    return {};
+  },
+  mounted() {
   },
   methods: {
     selectFile() {
@@ -87,6 +94,19 @@ export default {
 <style lang="stylus">
 .et-carousel
   .el-carousel
+    overflow: hidden
+    .el-carousel__container .el-carousel__item
+      .img-wrap
+        position: relative
+        width: 100%
+        height: 100%
+        img
+          position: absolute
+          top: 0
+          right: 0
+          bottom: 0
+          left: 0
+          margin: auto
     .el-carousel__arrow
       &:hover
         background-color: $blue
@@ -98,10 +118,11 @@ export default {
       top: 280px
     .el-carousel__indicators
       left: 96px
-      top: 104px
+      bottom: 50%
+      transform: translateY(50%)
       .el-carousel__indicator
         display: block
-        padding: 10px 4px
+        padding: 8px 4px
         .el-carousel__button
           width: 12px
           height: 12px
