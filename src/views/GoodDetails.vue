@@ -50,7 +50,50 @@
     </div>
 
     <div class="materialList">
+      <div class="cate-a">
+        <h3 class="title-a">A类产品</h3>
+        <div class="not-vip">
+          <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
+          <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
+          <ul class="materials">
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+          </ul>
+        </div>
+        <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
+      </div>
+      <div class="cate-b">
+        <h3 class="title-a">B类产品</h3>
+        <div class="not-vip">
+          <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
+          <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
+          <ul class="materials">
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+          </ul>
+        </div>
+        <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
+      </div>
     </div>
+    <et-footer></et-footer>
   </div>
 </template>
 
@@ -70,6 +113,12 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    previous() {
+    },
+    next() {
+    },
   },
 };
 </script>
@@ -192,7 +241,48 @@ export default {
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
 .materialList
-  height: 80px;
-  background: rgb(245,246,250);
-  margin-top: 30px
+  width: 80%
+  margin: 30px auto 0 auto
+  .need-vip > img
+    width: 100%
+  .not-vip
+    position: relative
+    width: 100%
+    margin-bottom: 20px
+    .carousel-next
+      absolute: right -70px top 70px
+      height: 64px
+      width: 64px
+      font-size: 64px
+      color: $grey2
+      background: transparent
+    .carousel-previous
+      absolute: left -70px top 70px
+      width: 64px
+      height: 64px
+      font-size: 64px
+      color: $grey2
+      background: transparent
+    .materials
+      display: flex
+      width: 100%
+      overflow-x: auto
+      padding: 20px 0
+      .material
+        flex-shrink: 0
+        width: 120px
+        height: 100px
+        padding-top: 18px
+        padding-left: 24px
+        margin-right: 20px
+        text-align: center
+        border-radius: 8px 8px
+        border: 1px solid $grey
+        .img-wrap
+          background: $grey
+          width: 72px
+          height: 64px
+          img
+            width: 100%
+            height: 100%
 </style>
