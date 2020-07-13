@@ -6,7 +6,8 @@ module.exports = {
     open: true,
     proxy: {
       '/api': {
-        target: 'http://www.etchips-dev.com:8108',
+        // target: 'http://www.etchips-dev.com:8108',
+        target: 'http://login.honengelec.com:8108',
         secure: false,
         changeOrigin: true,
         pathRewrite: {

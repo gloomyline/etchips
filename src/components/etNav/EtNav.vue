@@ -21,20 +21,80 @@
           <li class="nav-link"><router-link :class="classMap('Customer')" to="/customerService">客户服务</router-link></li>
           <li class="nav-link"><router-link :class="classMap('Factory')" to="/factoryService">原厂服务</router-link></li>
         </ul>
-        <div class="btn-login">
+        <div class="btn-login" @click="openLogin">
           <span class="label">注册/登录</span>
           <div class="icon-wrap"><i class="el-icon-user"></i></div>
         </div>
+        <el-dialog
+          ref="loginDialog"
+          title="登录/注册"
+          :visible.sync="isLoginShown"
+          width="420px"
+          center
+          top="32vh">
+          <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
+            <el-form-item prop="phone" label="手机号：" label-width="80px">
+              <el-input v-model="loginForm.phone" placeholder="请输入手机号">
+                <i class="el-icon-mobile-phone" slot="prepend"></i>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="code" label="验证码：" label-width="80px">
+              <el-input v-model="loginForm.code" placeholder="请输入验证码">
+                <i class="el-icon-message" slot="prepend"></i>
+                <et-counter-button :is-validated="isPhoneValidated" label="获取验证码" @on-click="fetchCode" slot="append"></et-counter-button>
+              </el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="loginHandler" :loading="isLoginLoading">登录/注册</el-button>
+          </span>
+        </el-dialog>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/api';
+
 export default {
   name: 'EtNav',
   props: {
     hasPrefix: Boolean,
+  },
+  data() {
+    function validator(rule, value, callback) {
+      if (/1[2|3|4|5|6|7|8|9]\d{9}/.test(value)) {
+        callback();
+      } else {
+        callback(new Error('请输入正确的手机号!'));
+      }
+    }
+    return {
+      isLoginShown: false,
+      loginForm: {
+        phone: '',
+        code: '',
+      },
+      loginRules: {
+        phone: [{
+          required: true, message: '请输入正确的手机号', trigger: 'blur', validator,
+        }],
+        code: [{
+          required: true, message: '请填写验证码', trigger: 'blur',
+        }],
+      },
+      isPhoneValidated: false,
+      isLoginLoading: false,
+    };
+  },
+  created() {
+  },
+  watch: {
+    /* eslint-disable object-shorthand */
+    'loginForm.phone'(val) {
+      this.isPhoneValidated = /1[2|3|4|5|6|7|8|9]\d{9}/.test(val);
+    },
   },
   methods: {
     classMap(routeName) {
@@ -43,6 +103,55 @@ export default {
         return { active: true };
       }
       return { active: routeName === this.$route.name };
+    },
+    openLogin() {
+      this.isLoginShown = true;
+    },
+    closeLogin() {
+      this.isLoginShown = false;
+    },
+    async loginHandler() {
+      const validation = await this.$refs.loginForm.validate();
+      if (!validation) return;
+      this.isLoginLoading = true;
+      const response = await api.login.loginByCode(this.loginForm);
+      if (response.success) {
+        const self = this;
+        this.$message({
+          type: 'success',
+          message: response.msg,
+          onClose() {
+            self.isLoginShown = false;
+          },
+        });
+      } else {
+        this.$message({
+          type: 'error',
+          message: response.msg,
+        });
+      }
+      this.isLoginLoading = false;
+    },
+    /* eslint-disable consistent-return */
+    async fetchCode() {
+      if (!this.isPhoneValidated) {
+        return this.$message({
+          message: '请输入手机号后获取验证码！',
+          type: 'warning',
+        });
+      }
+      const response = await api.login.fetchCode(this.loginForm.phone);
+      if (response.success) {
+        this.$message({
+          type: 'success',
+          message: response.msg,
+        });
+      } else {
+        this.$message({
+          type: 'error',
+          message: response.msg,
+        });
+      }
     },
   },
 };

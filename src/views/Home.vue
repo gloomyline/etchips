@@ -5,9 +5,12 @@
     <et-carousel :carousel-data="carouselData"></et-carousel>
     <div class="et-module-nav">
       <ul class="modules">
-        <li class="module"><a href="#"><img src="@/assets/icon-detect.png" class="icon" width="64" height="64"><p class="label">物料验真</p></a></li>
-        <li class="module"><a href="#"><img src="@/assets/icon-files-download.png" alt="" class="icon" width="64" height="64"><p class="label">报告下载</p></a></li>
-        <li class="module"><a href="#"><img src="@/assets/icon-customer-define.png" alt="" class="icon" width="64"><p class="label">用户定制</p></a></li>
+        <!-- 委托检测，需要登录 -->
+        <li class="module"><a href="#"><img src="@/assets/icon-detect.png" class="icon" width="64" height="64"><p class="label">委托检测</p></a></li>
+        <!-- 客户服务，可用提取码查看 -->
+        <li class="module"><a href="#"><img src="@/assets/icon-files-download.png" alt="" class="icon" width="64" height="64"><p class="label">客户服务</p></a></li>
+        <!-- 数据申请，会员用于申请增加样品数据 -->
+        <li class="module"><a href="#"><img src="@/assets/icon-customer-define.png" alt="" class="icon" width="64"><p class="label">数据申请</p></a></li>
       </ul>
     </div>
     <div class="know-more">
@@ -193,7 +196,8 @@ export default {
   components: { EtCarousel },
   async created() {
     const data = await api.home.fetchCarousels();
-    this.carouselData = data.map((item) => item.path);
+    const imgs = data.map((item) => item.path);
+    this.carouselData = imgs.length > 0 ? imgs : undefined;
   },
 };
 </script>
