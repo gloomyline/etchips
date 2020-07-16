@@ -2,13 +2,7 @@
   <div class="et-search-box">
     <div class="wrap">
       <img src="@/components/etNav/icon-et-logo.png" alt="" class="et-logo">
-      <el-input placeholder="请输入搜索" v-model="searchContent" class="search">
-        <el-select v-model="selected" slot="prepend" placeholder="请选择类别">
-          <el-option label="全部类别" value="0"></el-option>
-          <el-option label="类别一" value="1"></el-option>
-          <el-option label="类别二" value="2"></el-option>
-          <el-option label="类别三" value="3"></el-option>
-        </el-select>
+      <el-input placeholder="请输入后回车搜索" v-model="searchContent" class="search" v-on="$listeners">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
       <div class="hot-search-labels">
@@ -24,12 +18,23 @@
 <script>
 export default {
   name: 'EtSearchBox',
+  props: {
+    value: {
+      type: [String, Number],
+      default: '',
+    },
+  },
   data() {
     return {
       searchContent: '',
       selected: '0',
       hots: ['DM7404M', 'MBR20100CT-G1'],
     };
+  },
+  watch: {
+    searchContent(val) {
+      this.$emit('input', val);
+    },
   },
 };
 </script>

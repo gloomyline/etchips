@@ -2,8 +2,8 @@
   <div class="et-carousel">
     <div class="carousel-wrap">
       <div class="suspend">
-        <h2 class="title" @click="gotoSearchResults">即刻了解任何电子芯片</h2>
-        <el-input class="search" suffix-icon="el-icon-search" placeholder="请输入产品料号"></el-input>
+        <h2 class="title">即刻了解任何电子芯片</h2>
+        <el-input v-model="searchContent" class="search" suffix-icon="el-icon-search" placeholder="请输入产品料号" @change="gotoSearchResults"></el-input>
         <div class="material-upload">
           <span class="btn-upload" @click="selectFile">上传物料清单</span>
           <input ref="file" type="file" name="file" hidden>
@@ -32,7 +32,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      searchContent: null,
+    };
   },
   mounted() {
   },
@@ -41,7 +43,7 @@ export default {
       this.$refs.file.click();
     },
     gotoSearchResults() {
-      this.$router.push({ name: 'SearchResults' });
+      this.$router.push({ name: 'SearchResults', query: { searchContent: this.searchContent } });
     },
   },
 };

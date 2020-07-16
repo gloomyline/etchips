@@ -3,7 +3,7 @@
     <div class="padding-top"></div>
     <et-nav></et-nav>
     <el-divider></el-divider>
-    <et-search-box></et-search-box>
+    <et-search-box v-model="searchContent" @change="search"></et-search-box>
     <div class="results-list">
       <div class="has-data" v-if="brands.length > 0">
         <div class="brands-filter">
@@ -23,16 +23,18 @@
         </div>
         <div class="product-list">
           <h3 class="title">显示{{ product.totalCount }}产品</h3>
-          <el-table :data="product.list" stripe header-row-class-name="product-table-header">
+          <el-table :data="product.list" stripe header-row-class-name="product-table-header" v-loading="tableLoading">
             <el-table-column label="图片" align="center" width="80">
-              <template slot-scope="scope"><img :src="scope.row.img" alt="" width="64" height="64"></template>
+              <template slot-scope="scope"><img :src="scope.row.picturesA" alt="" width="64" height="64"></template>
             </el-table-column>
             <el-table-column label="物料" align="center" min-width="100">
-              <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.goodId)">{{ scope.row.name }}</a></template>
+              <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.supplierId)">{{ scope.row.materialNumber }}</a></template>
             </el-table-column>
-            <el-table-column label="品牌" align="center" min-width="60" prop="brand"></el-table-column>
-            <el-table-column label="规格书" align="center" min-width="160" prop="specification"></el-table-column>
-            <el-table-column label="图片组数" align="center" min-width="60" prop="pictureGroups"></el-table-column>
+            <el-table-column label="品牌" align="center" min-width="80">
+              <template slot-scope="scope"><span>{{ scope.row.brand.brandName }}</span></template>
+            </el-table-column>
+            <el-table-column label="规格书" align="center" min-width="160" prop="classification"></el-table-column>
+            <el-table-column label="图片组数" align="center" min-width="60" prop="specificats"></el-table-column>
             <el-table-column label="是否存在检测类图片" align="center" min-width="180">
               <!-- <template slot-scope="scope">
               </template> -->
@@ -41,10 +43,10 @@
            <el-pagination
             class="align-center"
             @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="10"
+            :current-page.sync="pageConfig.current"
+            :page-size="pageConfig.pageSize"
             layout="prev, pager, next, jumper"
-            :total="100"
+            :total="pageConfig.total"
             style="padding-top: 10px;"
             hide-on-single-page>
           </el-pagination>
@@ -60,7 +62,7 @@
 </template>
 
 <script>
-import productMockData from './product';
+import api from '@/api';
 
 export default {
   name: 'SearchResults',
@@ -96,12 +98,36 @@ export default {
       brands,
       product: {
         totalCount: '15, 000',
-        list: productMockData,
+        list: [],
       },
-      currentPage: 1,
+      searchContent: '',
+      brandIds: [21],
+      tableLoading: false,
+      pageConfig: {
+        current: 1,
+        pageSize: 10,
+        total: null,
+      },
     };
   },
+  created() {
+    this.search(this.$route.query.searchContent);
+  },
   methods: {
+    async search(searchContent) {
+      this.tableLoading = true;
+      const payload = {
+        material: searchContent,
+        brandIds: this.brandIds,
+        page: this.pageConfig.current,
+        limit: this.pageConfig.pageSize,
+      };
+      const response = await api.home.search(payload);
+      this.pageConfig.total = response.count;
+      this.product.totalCount = String(response.count);
+      this.product.list = response.data;
+      this.tableLoading = false;
+    },
     previous() {
       this.$refs.carousel.prev();
     },

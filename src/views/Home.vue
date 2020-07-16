@@ -80,25 +80,25 @@
         <img class="img-map" src="@/assets/img-map.png">
         <img class="icon-marker" src="@/assets/icon-marker.png" width="30" height="40">
       </div>
-      <el-form style="padding-top: 20px; background: #F5F6FA;" label-position="left" label-width="80px" :model="form">
+      <el-form ref="form" style="padding-top: 20px; background: #F5F6FA;" label-position="left" label-width="80px" :model="form" :rules="rules">
         <el-row :gutter="20" style="width: 80%;margin: 0 auto;">
           <el-col :span="12">
-            <el-form-item label="姓名">
+            <el-form-item label="姓名" prop="name">
               <el-input v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="邮箱">
+            <el-form-item label="邮箱" prop="email">
               <el-input v-model="form.email"></el-input>
             </el-form-item>
-            <el-form-item label="电话">
+            <el-form-item label="电话" prop="phone">
               <el-input v-model="form.phone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="建议">
+            <el-form-item label="建议" prop="advice">
               <el-input v-model="form.advice" type="textarea" maxlength="50" show-word-limit></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">提交</el-button>
+              <el-button type="primary" @click="commitAdvices" :loading="isCommiting">提交</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -185,12 +185,19 @@ export default {
       selecteds,
       materials: MATERIALS,
       mapImg: null,
+      rules: {
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        email: [{ required: true, trigger: 'blur', message: '请输入邮箱' }],
+        phone: [{ required: true, trigger: 'blur', message: '请输入手机号' }],
+        advice: [{ required: true, trigger: 'blur', message: '请输入意见' }],
+      },
       form: {
         name: '',
         email: '',
         phone: '',
         advice: '',
       },
+      isCommiting: false,
     };
   },
   components: { EtCarousel },
@@ -198,6 +205,33 @@ export default {
     const data = await api.home.fetchCarousels();
     const imgs = data.map((item) => item.path);
     this.carouselData = imgs.length > 0 ? imgs : undefined;
+  },
+  methods: {
+    async commitAdvices() {
+      const validation = await this.$refs.form.validate();
+      if (!validation) return;
+      this.isCommiting = true;
+      const payload = {
+        content: this.form.advice,
+        customerName: this.form.name,
+        email: this.form.email,
+        phone: this.form.phone,
+      };
+      const response = await api.home.commitAdvices(payload);
+      if (response.success) {
+        this.$message({
+          message: response.msg,
+          type: 'success',
+        });
+      } else {
+        this.$message({
+          message: response.msg,
+          type: 'error',
+        });
+      }
+      this.isCommiting = false;
+      this.$refs.form.resetFields();
+    },
   },
 };
 </script>
