@@ -1,4 +1,4 @@
-export class Cookies {
+export class Cookie {
   constructor ({ expire = 30 }) {
     this.expire = expire;
   }
@@ -19,16 +19,17 @@ export class Cookies {
   }
 
   del(name) {
-
   }
 
   delAll() {
-
   }
 } 
 
 export default {
   install(Vue) {
-
+    const cookie = new Cookie();
+    Vue.prototype.$utils = {
+      cookie
+    };
   }
 }
