@@ -114,7 +114,7 @@ export default {
       const validation = await this.$refs.loginForm.validate();
       if (!validation) return;
       this.isLoginLoading = true;
-      const response = await api.login.loginByCode(this.loginForm);
+      const response = await api.auth.loginByCode(this.loginForm);
       if (response.success) {
         const self = this;
         this.$message({
@@ -140,7 +140,7 @@ export default {
           type: 'warning',
         });
       }
-      const response = await api.login.fetchCode(this.loginForm.phone);
+      const response = await api.auth.fetchCode(this.loginForm.phone);
       if (response.success) {
         this.$message({
           type: 'success',
