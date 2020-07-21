@@ -21,32 +21,90 @@
           <li class="nav-link"><router-link :class="classMap('Customer')" to="/customerService">客户服务</router-link></li>
           <li class="nav-link"><router-link :class="classMap('Factory')" to="/factoryService">原厂服务</router-link></li>
         </ul>
-        <div class="btn-login" @click="openLogin">
-          <span class="label">注册/登录</span>
+        <div class="btn-login" @click="openDialog">
+          <span class="label">{{ isAuthenticated ? '登出' : '登录' }}</span>
           <div class="icon-wrap"><i class="el-icon-user"></i></div>
         </div>
         <el-dialog
           ref="loginDialog"
-          title="登录/注册"
+          title="登录"
           :visible.sync="isLoginShown"
           width="420px"
           center
-          top="32vh">
+          top="25vh">
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
-            <el-form-item prop="phone" label="手机号：" label-width="80px">
-              <el-input v-model="loginForm.phone" placeholder="请输入手机号">
-                <i class="el-icon-mobile-phone" slot="prepend"></i>
+            <div class="login-by-pwd" v-show="!isLoginByCode">
+              <el-form-item prop="username" label="用户名：" label-width="80px">
+                <el-input v-model="loginForm.username" prefix-icon="el-icon-user-solid" placeholder="请输入用户名">
+                </el-input>
+              </el-form-item>
+              <el-form-item prop="password" label="密码：" label-width="80px">
+                <el-input v-model="loginForm.password" prefix-icon="el-icon-lock" show-password placeholder="请输入密码">
+                </el-input>
+              </el-form-item>
+            </div>
+            <div class="login-by-code" v-show="isLoginByCode">
+              <el-form-item prop="phone" label="手机号：" label-width="80px">
+                <el-input v-model="loginForm.phone" prefix-icon="el-icon-mobile-phone" placeholder="请输入手机号">
+                </el-input>
+              </el-form-item>
+              <el-form-item prop="code" label="验证码：" label-width="80px">
+                <el-input v-model="loginForm.code" prefix-icon="el-icon-message" placeholder="请输入验证码">
+                  <et-counter-button :is-validated="isPhoneValidated" label="获取验证码" @on-click="fetchCode" slot="append"></et-counter-button>
+                </el-input>
+              </el-form-item>
+            </div>
+            <div class="inline-center">
+              <el-button type="text" @click="isLoginShown=false;isRegisterShown=true;">没有账号，去注册</el-button>
+              <el-button type="text" @click="isLoginByCode = !isLoginByCode">切换登录方式</el-button>
+            </div>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="loginHandler" :loading="isLoginLoading">登录</el-button>
+          </span>
+        </el-dialog>
+        <el-dialog
+          ref="registerDialog"
+          title="注册"
+          :visible.sync="isRegisterShown"
+          width="420px"
+          center
+          top="10vh">
+          <el-form ref="registerForm" :model="registerForm" :rules="registerRules">
+            <el-form-item prop="username" label="用户名：" label-width="80px">
+              <el-input v-model="registerForm.username" prefix-icon="el-icon-user-solid" placeholder="请输入用户名">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password" label="密码：" label-width="80px">
+              <el-input v-model="registerForm.password" prefix-icon="el-icon-lock" show-password placeholder="请输入密码">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="name" label="姓名：" label-width="80px">
+              <el-input v-model="registerForm.name" prefix-icon="el-icon-user" placeholder="请输入姓名">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="mobile" label="手机号：" label-width="80px">
+              <el-input v-model="registerForm.mobile" prefix-icon="el-icon-mobile-phone" placeholder="请输入手机号">
               </el-input>
             </el-form-item>
             <el-form-item prop="code" label="验证码：" label-width="80px">
-              <el-input v-model="loginForm.code" placeholder="请输入验证码">
-                <i class="el-icon-message" slot="prepend"></i>
-                <et-counter-button :is-validated="isPhoneValidated" label="获取验证码" @on-click="fetchCode" slot="append"></et-counter-button>
+              <el-input v-model="registerForm.code" prefix-icon="el-icon-message" placeholder="请输入验证码">
+                <et-counter-button :is-validated="isMobileValidated" label="获取验证码" @on-click="fetchCode" slot="append"></et-counter-button>
               </el-input>
             </el-form-item>
+            <div class="inline-center"><el-button type="text" @click="isLoginShown=true;isRegisterShown=false;">已有账号，去登录</el-button></div>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="loginHandler" :loading="isLoginLoading">登录/注册</el-button>
+            <el-button type="primary" @click="registerHandler" :loading="isRegisterLoading">注册</el-button>
+          </span>
+        </el-dialog>
+        <el-dialog
+          :visible.sync="isLogoutShown"
+          width="30%">
+          <span>确认登出吗？</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="isLogoutShown = false">取 消</el-button>
+            <el-button type="primary" @click="isLogoutShown = false;logout();">确 定</el-button>
           </span>
         </el-dialog>
       </div>
@@ -71,10 +129,16 @@ export default {
       }
     }
     return {
+      token: '',
       isLoginShown: false,
+      isLoginByCode: false,
+      isRegisterShown: false,
+      isLogoutShown: false,
       loginForm: {
         phone: '',
         code: '',
+        username: '',
+        password: '',
       },
       loginRules: {
         phone: [{
@@ -83,17 +147,56 @@ export default {
         code: [{
           required: true, message: '请填写验证码', trigger: 'blur',
         }],
+        username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
+        password: [{ required: true, trigger: 'blur', message: '请输入密码' }],
       },
+      registerForm: {
+        username: null,
+        password: null,
+        mobile: null,
+        code: null,
+        name: null,
+      },
+      /* eslint-disable */
+      registerRules: {
+        username: [
+          { required: true, trigger: 'blur', message: '请输入用户名' },
+          { validator: this.usernameValidator, trigger: 'blur' },
+        ],
+        password: [{ required: true, trigger: 'blur', message: '请输入密码' }],
+        mobile: [
+          { required: true, trigger: 'blur', message: '请输入手机号', validator },
+          { validator: this.phoneValidator, trigger: 'blur' },
+        ],
+        code: [{
+          required: true, message: '请填写验证码', trigger: 'blur',
+        }],
+        name: [{
+          required: true, message: '请输入姓名', trigger: 'blur',
+        }],
+      },
+      /* eslint-enable */
       isPhoneValidated: false,
+      isMobileValidated: false,
       isLoginLoading: false,
+      isRegisterLoading: false,
     };
   },
   created() {
+    this.updateToken();
+  },
+  computed: {
+    isAuthenticated() {
+      return !!this.token;
+    },
   },
   watch: {
     /* eslint-disable object-shorthand */
     'loginForm.phone'(val) {
       this.isPhoneValidated = /1[2|3|4|5|6|7|8|9]\d{9}/.test(val);
+    },
+    'registerForm.mobile'(val) {
+      this.isMobileValidated = /1[2|3|4|5|6|7|8|9]\d{9}/.test(val);
     },
   },
   methods: {
@@ -104,19 +207,81 @@ export default {
       }
       return { active: routeName === this.$route.name };
     },
-    openLogin() {
-      this.isLoginShown = true;
+    openDialog() {
+      if (this.isAuthenticated) {
+        this.isLogoutShown = true;
+      } else {
+        this.isLoginShown = true;
+      }
     },
     closeLogin() {
       this.isLoginShown = false;
     },
-    async loginHandler() {
-      const validation = await this.$refs.loginForm.validate();
+    async usernameValidator(rule, value, callback) {
+      const response = await api.auth.checkUser(value);
+      if (response.success) {
+        callback();
+      } else {
+        callback(new Error('用户名不合法或已存在！'));
+      }
+    },
+    async registerHandler() {
+      const validation = await this.$refs.registerForm.validate();
       if (!validation) return;
-      this.isLoginLoading = true;
-      const response = await api.auth.loginByCode(this.loginForm);
+      this.isRegisterLoading = true;
+      const response = await api.auth.register(this.registerForm);
       if (response.success) {
         const self = this;
+        this.$message({
+          type: 'success',
+          message: response.msg,
+          onClose() {
+            self.isLoginShown = true;
+            self.isRegisterShown = false;
+          },
+        });
+      } else {
+        this.$message({
+          type: 'error',
+          message: response.msg,
+        });
+      }
+      this.isRegisterLoading = false;
+    },
+    updateToken() {
+      this.token = this.$utils.cookie.get('token');
+    },
+    async loginHandler() {
+      const self = this;
+      function validatePromise() {
+        return new Promise((resolve) => {
+          self.$refs.loginForm.validateField(self.isLoginByCode ? ['phone', 'code'] : ['username', 'password'], (errMsg) => {
+            if (errMsg) {
+              resolve(false);
+            } else {
+              resolve(true);
+            }
+          });
+        });
+      }
+      const validation = await validatePromise();
+      if (!validation) return;
+      this.isLoginLoading = true;
+      const payload = this.isLoginByCode ? {
+        phone: this.loginForm.phone,
+        code: this.loginForm.code,
+      } : {
+        username: this.loginForm.username,
+        password: this.loginForm.password,
+      };
+      let response;
+      if (this.isLoginByCode) {
+        response = await api.auth.loginByCode(payload);
+      } else {
+        response = await api.auth.loginByPwd(payload);
+      }
+      if (response.success) {
+        this.updateToken();
         this.$message({
           type: 'success',
           message: response.msg,
@@ -134,13 +299,19 @@ export default {
     },
     /* eslint-disable consistent-return */
     async fetchCode() {
-      if (!this.isPhoneValidated) {
+      if (!this.isPhoneValidated && !this.isMobileValidated) {
         return this.$message({
           message: '请输入手机号后获取验证码！',
           type: 'warning',
         });
       }
-      const response = await api.auth.fetchCode(this.loginForm.phone);
+      /* eslint-disable no-nested-ternary */
+      const phone = this.isLoginShown
+        ? this.loginForm.phone
+        : this.isRegisterShown
+          ? this.registerForm.mobile
+          : '';
+      const response = await api.auth.fetchCode(phone);
       if (response.success) {
         this.$message({
           type: 'success',
@@ -150,6 +321,20 @@ export default {
         this.$message({
           type: 'error',
           message: response.msg,
+        });
+      }
+    },
+    async logout() {
+      const self = this;
+      const response = await api.auth.logout();
+      if (response.success) {
+        this.updateToken();
+        this.$message({
+          type: 'success',
+          message: '登出成功！',
+          onClose() {
+            self.isLogoutShown = false;
+          },
         });
       }
     },
@@ -196,7 +381,7 @@ export default {
       .btn-login
         width: 132px
         height: 40px
-        padding-left: 10px
+        padding-left: 32px
         margin-top: 7px
         cursor: pointer
         border-radius: 25px 25px

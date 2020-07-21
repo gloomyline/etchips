@@ -20,12 +20,23 @@ export default {
     return response;
   },
   /**
-   * @param  {String}
-   * @param  {String}
+   * @param username {String}
+   * @param password {String}
+   * @param mobile {String}
+   * @param code {String}
+   * @param name {String}
    * @return {Response}
    */
-  async register({ username = '', password = '' } = {}) {
-    const response = await axios.post('/chi/customer/free/register', { username, password });
+  async register({
+    username = '',
+    password = '',
+    mobile = '',
+    code = '',
+    name = '',
+  } = {}) {
+    const response = await axios.post('/chi/customer/free/register', {
+      username, password, mobile, code, name,
+    });
     return response;
   },
   /**
