@@ -6,9 +6,9 @@
     <div class="et-module-nav">
       <ul class="modules">
         <!-- 委托检测，需要登录 -->
-        <li class="module"><a href="#"><img src="@/assets/icon-detect.png" class="icon" width="64" height="64"><p class="label">委托检测</p></a></li>
+        <li class="module"><router-link to="/detect"><img src="@/assets/icon-detect.png" class="icon" width="64" height="64"><p class="label">委托检测</p></router-link></li>
         <!-- 客户服务，可用提取码查看 -->
-        <li class="module"><a href="#"><img src="@/assets/icon-files-download.png" alt="" class="icon" width="64" height="64"><p class="label">客户服务</p></a></li>
+        <li class="module"><router-link to="/customerService"><img src="@/assets/icon-files-download.png" alt="" class="icon" width="64" height="64"><p class="label">客户服务</p></router-link></li>
         <!-- 数据申请，会员用于申请增加样品数据 -->
         <li class="module"><a href="#"><img src="@/assets/icon-customer-define.png" alt="" class="icon" width="64"><p class="label">数据申请</p></a></li>
       </ul>

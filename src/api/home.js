@@ -13,4 +13,8 @@ export default {
     const response = await axios.post('/chi/homePage/free/sendOperProposal', payload);
     return response;
   },
+  async detect(payload) {
+    const response = await axios.post('/chi/homePage/entrustCheck', payload);
+    return response;
+  },
 };
