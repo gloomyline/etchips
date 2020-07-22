@@ -35,6 +35,12 @@ const routes = [
     component: () => import('@/views/DataApply.vue'),
     meta: { requireAuth: true },
   },
+  {
+    path: '/report-download',
+    name: 'ReportDownload',
+    component: () => import('@/views/ReportDownload.vue'),
+    meta: { requireAuth: true },
+  }
 ];
 
 const router = new VueRouter({

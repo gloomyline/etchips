@@ -18,7 +18,7 @@
         <ul class="nav-links">
           <li class="nav-link"><router-link :class="classMap('Home')" to="/">首页</router-link></li>
           <li class="nav-link"><router-link :class="classMap('Detect')" to="/detect">委托检测</router-link></li>
-          <li class="nav-link"><router-link :class="classMap('Customer')" to="/customerService">客户服务</router-link></li>
+          <li class="nav-link"><router-link :class="classMap('Customer')" to="/report-download">客户服务</router-link></li>
           <li class="nav-link"><router-link :class="classMap('Factory')" to="/factoryService">原厂服务</router-link></li>
         </ul>
         <div class="btn-login" @click="openDialog">
