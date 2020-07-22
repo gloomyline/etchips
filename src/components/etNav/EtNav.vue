@@ -184,6 +184,8 @@ export default {
   },
   created() {
     this.updateToken();
+
+    this.authUser();
   },
   computed: {
     isAuthenticated() {
@@ -206,6 +208,20 @@ export default {
         return { active: true };
       }
       return { active: routeName === this.$route.name };
+    },
+    authUser() {
+      const currentRoute = this.$route;
+      const isRouteRequiredAuth = currentRoute.meta.requireAuth;
+      if (isRouteRequiredAuth && !this.isAuthenticated) {
+        const self = this;
+        this.$message({
+          type: 'warning',
+          message: '请先登录！',
+          onClose() {
+            self.$router.go(-1);
+          },
+        });
+      }
     },
     openDialog() {
       if (this.isAuthenticated) {
@@ -334,6 +350,9 @@ export default {
           message: '登出成功！',
           onClose() {
             self.isLogoutShown = false;
+            if (self.$route.meta.requireAuth) {
+              self.$router.push({ name: 'Home' });
+            }
           },
         });
       }

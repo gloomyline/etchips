@@ -27,11 +27,13 @@ const routes = [
     path: '/detect',
     name: 'Detect',
     component: () => import('@/views/Detect.vue'),
+    meta: { requireAuth: true },
   },
   {
     path: '/data-apply',
     name: 'DataApply',
     component: () => import('@/views/DataApply.vue'),
+    meta: { requireAuth: true },
   },
 ];
 
