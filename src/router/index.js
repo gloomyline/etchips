@@ -28,6 +28,11 @@ const routes = [
     name: 'Detect',
     component: () => import('@/views/Detect.vue'),
   },
+  {
+    path: '/data-apply',
+    name: 'DataApply',
+    component: () => import('@/views/DataApply.vue'),
+  },
 ];
 
 const router = new VueRouter({

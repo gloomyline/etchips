@@ -10,7 +10,7 @@
         <!-- 客户服务，可用提取码查看 -->
         <li class="module"><router-link to="/customerService"><img src="@/assets/icon-files-download.png" alt="" class="icon" width="64" height="64"><p class="label">客户服务</p></router-link></li>
         <!-- 数据申请，会员用于申请增加样品数据 -->
-        <li class="module"><a href="#"><img src="@/assets/icon-customer-define.png" alt="" class="icon" width="64"><p class="label">数据申请</p></a></li>
+        <li class="module"><router-link to="/data-apply"><img src="@/assets/icon-customer-define.png" alt="" class="icon" width="64"><p class="label">数据申请</p></router-link></li>
       </ul>
     </div>
     <div class="know-more">

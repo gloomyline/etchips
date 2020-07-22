@@ -17,4 +17,12 @@ export default {
     const response = await axios.post('/chi/homePage/entrustCheck', payload);
     return response;
   },
+  async detectedDownload(payload) {
+    const response = await axios.post('/chi/homePage/free/download', payload);
+    return response;
+  },
+  async dataApply(payload) {
+    const response = await axios.post('/chi/homePage/saveCustomize', payload);
+    return response;
+  },
 };
