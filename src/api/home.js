@@ -5,9 +5,17 @@ export default {
     const response = await axios.get('/chi/homePage/free/list');
     return response.data;
   },
+  async fetchBrands() {
+    const response = await axios.get('/chi/homePage/free/findAllBrands');
+    return response.data;
+  },
   async search(payload) {
     const response = await axios.post('/chi/homePage/free/search', payload);
     return response;
+  },
+  async fetchMaterial(payload) {
+    const response = await axios.post('/chi/homePage/free/getMaterial', payload);
+    return response.data;
   },
   async commitAdvices(payload) {
     const response = await axios.post('/chi/homePage/free/sendOperProposal', payload);

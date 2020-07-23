@@ -17,14 +17,14 @@
             <p class="desc1">SMD/SMT</p>
             <p class="desc2">PHPT60603NY</p>
             <div class="material-search">
-              <el-select placeholder="请选择" size="mini" class="select" v-model="materialName">
+              <!-- el-select placeholder="请选择" size="mini" class="select" v-model="materialName">
                 <el-option
                   v-for="item in finishStatus"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
                 ></el-option>
-              </el-select>
+              </el-select> -->
             </div>
             <p class="desc3">双极晶体管 - 双极结型晶体管(BJT)</p>
             <p class="desc4">双极晶体管 - 双极结型</p>
@@ -98,23 +98,25 @@
 </template>
 
 <script>
+import api from '@/api';
+
 export default {
   data() {
     return {
-      materialName: 'Nexperia',
-      finishStatus: [
-        {
-          value: '1',
-          label: 'Nexperia',
-        },
-        {
-          value: '0',
-          label: 'Nexperia',
-        },
-      ],
+      material: {},
     };
   },
+  created() {
+    this.fetchMaterial();
+  },
   methods: {
+    async fetchMaterial() {
+      const payload = {
+        brandName: this.$route.query.brandName,
+        materaiNumber: this.$route.query.materialNumber,
+      };
+      this.material = await api.home.fetchMaterial(payload);
+    },
     previous() {
     },
     next() {

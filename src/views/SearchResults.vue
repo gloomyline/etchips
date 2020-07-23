@@ -9,9 +9,14 @@
         <div class="brands-filter">
           <h3 class="title">品牌筛选</h3>
           <div class="wrap">
-            <el-carousel ref="carousel" trigger="click" arrow="never" :autoplay="false" height="60px" indicator-position="none">
+            <el-carousel ref="carousel" trigger="click" arrow="never" :autoplay="false" :loop="false" height="60px" indicator-position="none">
               <el-carousel-item v-for="(item, index) in brands" :key="index">
-                <ul class="brand-list"><li class="brand-item" v-for="(it, idx) in item" :key="idx">{{ it.name }}({{ it.count }})</li></ul>
+                <ul class="brand-list">
+                  <li class="brand-item"
+                    :class="{active: selectedBrandId === it.id}"
+                    v-for="(it, idx) in item"
+                    :key="idx" @click="selectBrand(it.id)">{{ it.brandName }}({{ it.level }})</li>
+                </ul>
               </el-carousel-item>
             </el-carousel>
             <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
@@ -28,10 +33,10 @@
               <template slot-scope="scope"><img :src="scope.row.picturesA" alt="" width="64" height="64"></template>
             </el-table-column>
             <el-table-column label="物料" align="center" min-width="100">
-              <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.supplierId)">{{ scope.row.materialNumber }}</a></template>
+              <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.brandName, scope.row.materialNumber)">{{ scope.row.materialNumber }}</a></template>
             </el-table-column>
             <el-table-column label="品牌" align="center" min-width="80">
-              <template slot-scope="scope"><span>{{ scope.row.brand.brandName }}</span></template>
+              <template slot-scope="scope"><span>{{ scope.row.brandName }}</span></template>
             </el-table-column>
             <el-table-column label="规格书" align="center" min-width="160" prop="classification"></el-table-column>
             <el-table-column label="图片组数" align="center" min-width="60" prop="specificats"></el-table-column>
@@ -67,41 +72,14 @@ import api from '@/api';
 export default {
   name: 'SearchResults',
   data() {
-    /* simulate brands */
-    const brands = [];
-    for (let i = 0; i < 4; i += 1) {
-      const brandList = [
-        {
-          name: 'ABC',
-          count: '3, 925',
-        },
-        {
-          name: 'EFG',
-          count: '4, 925',
-        },
-        {
-          name: 'HIJ',
-          count: '5, 925',
-        },
-        {
-          name: 'KLM',
-          count: '6, 925',
-        },
-        {
-          name: 'NOP',
-          count: '7, 925',
-        },
-      ];
-      brands.push(brandList);
-    }
     return {
-      brands,
+      brands: [],
+      selectedBrandId: null,
       product: {
         totalCount: '15, 000',
         list: [],
       },
       searchContent: '',
-      brandIds: [21],
       tableLoading: false,
       pageConfig: {
         current: 1,
@@ -110,15 +88,25 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
+    await this.fetchBrands();
     this.search(this.$route.query.searchContent);
   },
   methods: {
+    async fetchBrands() {
+      const brandList = await api.home.fetchBrands();
+      if (brandList.length <= 0) return;
+      // default brand is the first brand in brands
+      this.selectedBrandId = brandList[0].id;
+      while (brandList.length > 0) {
+        this.brands.push(brandList.splice(0, 4));
+      }
+    },
     async search(searchContent) {
       this.tableLoading = true;
       const payload = {
         material: searchContent,
-        brandIds: this.brandIds,
+        brandIds: [this.selectedBrandId],
         page: this.pageConfig.current,
         limit: this.pageConfig.pageSize,
       };
@@ -140,8 +128,11 @@ export default {
     handleCurrentChange(page) {
       console.log(`当前页: ${page}`);
     },
-    gotoGoodDetails(goodId) {
-      this.$router.push({ name: 'GoodDetails', params: { goodId } });
+    gotoGoodDetails(brandName, materialNumber) {
+      this.$router.push({ name: 'GoodDetails', query: { brandName, materialNumber } });
+    },
+    selectBrand(brandId) {
+      this.selectedBrandId = brandId;
     },
   },
 };
@@ -179,6 +170,10 @@ export default {
             color: $blue
             border-radius: 8px
             border: 1px solid $grey2
+            cursor: pointer
+            &.active
+              color: $white
+              background-color: $blue
       .carousel-previous
         absolute: left 1.5% top 20px
       .carousel-next
