@@ -10,24 +10,13 @@
       <div class="material-top">基本信息</div>
       <div class="material-bottom">
         <div class="material-bottom-left">
-          <div class="material-bottom-left-container"></div>
+          <div class="material-bottom-left-container"><img src="@/assets/img-chip.png" width="360" height="200"></div>
         </div>
         <div class="material-bottom-right">
           <div class="material-bottom-right-container">
-            <p class="desc1">SMD/SMT</p>
-            <p class="desc2">PHPT60603NY</p>
-            <div class="material-search">
-              <!-- el-select placeholder="请选择" size="mini" class="select" v-model="materialName">
-                <el-option
-                  v-for="item in finishStatus"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select> -->
-            </div>
-            <p class="desc3">双极晶体管 - 双极结型晶体管(BJT)</p>
-            <p class="desc4">双极晶体管 - 双极结型</p>
+            <p class="desc1">{{ material.brand && material.brand.brandName }}</p>
+            <p class="desc2">{{ material.supplier && material.supplier.supplierName }}</p>
+            <p class="desc3">{{ material.materialNumber }}</p>
           </div>
         </div>
       </div>
@@ -36,16 +25,19 @@
     <div class="material-container hsBottom">
       <div class="material-top">产品说明</div>
       <div class="material-bottom">
-        <div class="material-bottom-left"></div>
-        <div class="material-bottom-right">
-          <div class="material-bottom-right-container"></div>
+        <p class="dc-and-coo inline-center"><span class="dc">dc: {{ material.dc }}</span><span class="coo">coo: {{ material.coo }}</span></p>
+        <div class="material-bottom-left">
+          <div class="wrap inline-center">
+            <h3 class="title">产品规格说明书</h3>
+            <a v-for="item in material.products" @click.prevent="previewProduct(item.view)" :key="item.id" class="product">{{ item.fileName }}</a>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="cate-link-nav" id="j-cate-link-nav">
-      <div class="uc-cate-link-nav f-cb">
-        <div class="uc-cate-link-nav-container"></div>
+        <div class="material-bottom-right">
+          <div class="wrap inline-center">
+            <h3 class="title">pcn列表</h3>
+            <a v-for="item in material.specificats" @click.prevent="previewSpecification(item.view)" :key="item.id" class="specification"></a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -56,17 +48,7 @@
           <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
           <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
           <ul class="materials">
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material" v-for="item in material.picturesA" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
           </ul>
         </div>
         <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
@@ -77,17 +59,7 @@
           <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
           <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
           <ul class="materials">
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
-            <li class="material"><div class="img-wrap"><img src="@/assets/img-chip.png" alt=""></div></li>
+            <li class="material" v-for="item in material.picturesB" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
           </ul>
         </div>
         <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
@@ -101,6 +73,7 @@
 import api from '@/api';
 
 export default {
+  name: 'MaterialDetail',
   data() {
     return {
       material: {},
@@ -113,9 +86,17 @@ export default {
     async fetchMaterial() {
       const payload = {
         brandName: this.$route.query.brandName,
-        materaiNumber: this.$route.query.materialNumber,
+        materialNumber: this.$route.query.materialNumber,
       };
-      this.material = await api.home.fetchMaterial(payload);
+      const response = await api.home.fetchMaterial(payload);
+      /* eslint-disable prefer-destructuring */
+      this.material = response[0];
+    },
+    previewProduct(view) {
+      window.open(view, '_blank');
+    },
+    previewSpecification(view) {
+      window.open(view, '_blank');
     },
     previous() {
     },
@@ -169,79 +150,61 @@ export default {
     bottom: 0;
     background: rgb(245,246,250);
     z-index: 80;
+    .dc-and-coo
+      absolute: bottom 20px left
+      width: 100%
+      .dc
+        margin-right: 20px
+    .wrap
+      width: 360px
+      height: 240px
+      .title
+        font-size: 24px
+        font-weight: bold
+        margin-bottom: 20px
+      .product,.specification
+        margin-bottom: 10px
+        font-size: 16px
+        font-weight: normal
+        color: $grey
+        text-decoration: underline
+        cursor: pointer
     .material-bottom-left
+      display: flex
+      justify-content: center
+      align-items: center
       float: left;
       width: 50%;
       height: 100%;
-      position: relative
-      .material-bottom-left-container
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        height: 350px;
-        width: 350px;
-        transform: translateX(-50%) translateY(-50%);
-        display: block;
-        background-repeat: no-repeat;
-        background-position: center;
-        margin: 0 auto;
-        background-size: 100% 100%;
-        background-image:url('../assets/bg_materialDetail.png')
     .material-bottom-right
+      display: flex
+      justify-content: center
+      align-items: center
       float: right;
       width: 50%;
       height: 100%;
       position: relative
     .material-bottom-right-container
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        height: 80%;
-        width: 100%;
-        transform: translateX(-50%) translateY(-50%);
-        .desc1
-          color: #333333;
-          font-size: 20px;
-          padding: 10px 0 5px 20px;
-        .desc2
-          color: rgb(247,53,89);
-          font-size: 36px;
-          padding: 0 0 0 20px;
-          font-font-weight: bold;
-        .material-search
-          padding: 30px 0 30px 20px
-        .desc3
-          color: #333333;
-          font-size: 26px;
-          padding: 0 0 5px 20px;
-        .desc4
-          color: rgb(168,181,196);
-          font-size: 20px;
-          padding: 0 0 0 20px;
-.hsBottom
-  z-index: -1;
-  margin-bottom: -60px;
-.uc-cate-link-nav
-  position: relative;
-  width: 1081px;
-  padding: 0 62px;
-  margin: 0 auto;
-  height: 120px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 2px;
-  background-size: 100% 100%;
-  // background-image:url('../assets/bg-sub-title.png')
-  .fcb
-    zoom: 1
-  .uc-cate-link-nav-container
-    position: absolute;
-    width: 500px;
-    height: 60px;
-    background: red;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 80%;
+      width: 100%;
+      transform: translateX(-50%) translateY(-50%);
+      .desc1
+        color: #333333;
+        font-size: 20px;
+        padding: 10px 0 5px 20px;
+      .desc2
+        color: rgb(247,53,89);
+        font-size: 36px;
+        padding: 0 0 0 20px;
+        font-font-weight: bold;
+      .desc3
+        margin-top: 60px;
+        color: #333333;
+        font-size: 26px;
+        padding: 0 0 5px 20px;
 .materialList
   width: 80%
   margin: 30px auto 0 auto
