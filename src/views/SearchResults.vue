@@ -97,7 +97,7 @@ export default {
       const brandList = await api.home.fetchBrands();
       if (brandList.length <= 0) return;
       // default brand is the first brand in brands
-      this.selectedBrandId = brandList[0].id;
+      // this.selectedBrandId = brandList[0].id;
       while (brandList.length > 0) {
         this.brands.push(brandList.splice(0, 4));
       }

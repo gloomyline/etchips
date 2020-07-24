@@ -21,7 +21,7 @@
         <div class="btn-more">了解更多</div>
       </div>
     </div>
-    <div class="hot-search">
+    <!-- <div class="hot-search">
       <h2 class="title">热门物料检索</h2>
       <div class="search-wrap">
         <el-container>
@@ -46,7 +46,7 @@
           </el-aside>
         </el-container>
       </div>
-    </div>
+    </div> -->
     <div class="manufacturer">
       <ul class="summary">
         <li class="summary-item">
