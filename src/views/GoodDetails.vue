@@ -28,13 +28,13 @@
         <div class="material-bottom-left">
           <div class="wrap inline-center">
             <h3 class="title">产品规格说明书</h3>
-            <a v-for="item in material.products" @click.prevent="previewProduct(item.view)" :key="item.id" class="product">{{ item.fileName }}</a>
+            <a v-for="item in material.products" @click.prevent="previewProduct(item.view)" :key="item.id" class="product">{{ item.title }}</a>
           </div>
         </div>
         <div class="material-bottom-right">
           <div class="wrap inline-center">
             <h3 class="title">pcn列表</h3>
-            <a v-for="item in material.specificats" @click.prevent="previewSpecification(item.view)" :key="item.id" class="specification"></a>
+            <a v-for="item in material.specificats" @click.prevent="previewSpecification(item.view)" :key="item.id" class="specification">{{ item.title }}</a>
           </div>
         </div>
       </div>
@@ -164,6 +164,7 @@ export default {
         font-weight: bold
         margin-bottom: 20px
       .product,.specification
+        display: block
         margin-bottom: 10px
         font-size: 16px
         font-weight: normal
