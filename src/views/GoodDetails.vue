@@ -25,7 +25,6 @@
     <div class="material-container hsBottom">
       <div class="material-top">产品说明</div>
       <div class="material-bottom">
-        <p class="dc-and-coo inline-center"><span class="dc">dc: {{ material.dc }}</span><span class="coo">coo: {{ material.coo }}</span></p>
         <div class="material-bottom-left">
           <div class="wrap inline-center">
             <h3 class="title">产品规格说明书</h3>
@@ -42,27 +41,33 @@
     </div>
 
     <div class="materialList">
-      <div class="cate-a">
-        <h3 class="title-a">A类产品</h3>
-        <div class="not-vip">
-          <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
-          <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
-          <ul class="materials">
-            <li class="material" v-for="item in material.picturesA" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
-          </ul>
+      <div class="material" v-for="material in materials" :key="material.id">
+        <p class="dc-and-coo">
+          <span class="dc">DC: {{ material.dc }}</span>
+          <span class="coo">COO: {{ material.coo }}</span>
+        </p>
+        <div class="cate-a">
+          <h3 class="title-a">A类产品</h3>
+          <div class="not-vip">
+            <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
+            <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
+            <ul class="materials">
+              <li class="material" v-for="item in material.picturesA" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
+            </ul>
+          </div>
+          <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
         </div>
-        <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
-      </div>
-      <div class="cate-b">
-        <h3 class="title-a">B类产品</h3>
-        <div class="not-vip">
-          <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
-          <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
-          <ul class="materials">
-            <li class="material" v-for="item in material.picturesB" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
-          </ul>
+        <div class="cate-b">
+          <h3 class="title-a">B类产品</h3>
+          <div class="not-vip">
+            <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
+            <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
+            <ul class="materials">
+              <li class="material" v-for="item in material.picturesB" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
+            </ul>
+          </div>
+          <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
         </div>
-        <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
       </div>
     </div>
     <et-footer></et-footer>
@@ -77,6 +82,7 @@ export default {
   data() {
     return {
       material: {},
+      materials: [],
     };
   },
   created() {
@@ -88,9 +94,9 @@ export default {
         brandName: this.$route.query.brandName,
         materialNumber: this.$route.query.materialNumber,
       };
-      const response = await api.home.fetchMaterial(payload);
+      this.materials = await api.home.fetchMaterial(payload);
       /* eslint-disable prefer-destructuring */
-      this.material = response[0];
+      this.material = this.materials[0];
     },
     previewProduct(view) {
       window.open(view, '_blank');
@@ -150,11 +156,6 @@ export default {
     bottom: 0;
     background: rgb(245,246,250);
     z-index: 80;
-    .dc-and-coo
-      absolute: bottom 20px left
-      width: 100%
-      .dc
-        margin-right: 20px
     .wrap
       width: 360px
       height: 240px
@@ -208,6 +209,14 @@ export default {
 .materialList
   width: 80%
   margin: 30px auto 0 auto
+  .material
+    .dc-and-coo
+      width: 100%
+      font-size: 16px
+      font-weight: bold
+      margin-bottom: 10px
+      .dc
+        margin-right: 20px
   .need-vip > img
     width: 100%
   .not-vip

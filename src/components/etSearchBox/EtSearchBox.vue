@@ -3,7 +3,7 @@
     <div class="wrap">
       <img src="@/components/etNav/icon-et-logo.png" alt="" class="et-logo">
       <el-input placeholder="请输入后回车搜索" v-model="searchContent" class="search" v-on="$listeners">
-        <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-button slot="append" icon="el-icon-search" @click="onSearchClick($event)"></el-button>
       </el-input>
       <div class="hot-search-labels">
         <span class="label">热门搜索：</span>
@@ -32,8 +32,16 @@ export default {
     };
   },
   watch: {
+    value(val) {
+      this.searchContent = val;
+    },
     searchContent(val) {
       this.$emit('input', val);
+    },
+  },
+  methods: {
+    onSearchClick(e) {
+      this.$emit('search', this.value, e);
     },
   },
 };

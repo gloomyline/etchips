@@ -3,7 +3,7 @@
     <div class="padding-top"></div>
     <et-nav></et-nav>
     <el-divider></el-divider>
-    <et-search-box v-model="searchContent" @change="search"></et-search-box>
+    <et-search-box v-model="searchContent" @change="search" @search="search"></et-search-box>
     <div class="results-list">
       <div class="has-data" v-if="brands.length > 0">
         <div class="brands-filter">
@@ -38,11 +38,13 @@
             <el-table-column label="品牌" align="center" min-width="80">
               <template slot-scope="scope"><span>{{ scope.row.brandName }}</span></template>
             </el-table-column>
-            <el-table-column label="规格书" align="center" min-width="160" prop="classification"></el-table-column>
-            <el-table-column label="图片组数" align="center" min-width="60" prop="specificats"></el-table-column>
-            <el-table-column label="是否存在检测类图片" align="center" min-width="180">
-              <!-- <template slot-scope="scope">
-              </template> -->
+            <!-- <el-table-column label="规格书" align="center" min-width="160" prop="classification"></el-table-column> -->
+            <el-table-column label="图片组数" align="center" width="160" prop="picGroups"></el-table-column>
+            <el-table-column label="是否存在检测类图片" align="center" width="160">
+              <template slot-scope="scope">
+                <i class="el-icon-success" v-if="scope.row.checkPicExist"></i>
+                <i class="el-icon-error" v-else></i>
+              </template>
             </el-table-column>
           </el-table>
            <el-pagination
@@ -88,9 +90,15 @@ export default {
       },
     };
   },
+  watch: {
+    selectedBrandId() {
+      this.search(this.searchContent);
+    },
+  },
   async created() {
     await this.fetchBrands();
-    this.search(this.$route.query.searchContent);
+    this.searchContent = this.$route.query.searchContent;
+    this.search();
   },
   methods: {
     async fetchBrands() {
@@ -102,10 +110,10 @@ export default {
         this.brands.push(brandList.splice(0, 4));
       }
     },
-    async search(searchContent) {
+    async search() {
       this.tableLoading = true;
       const payload = {
-        material: searchContent,
+        material: this.searchContent,
         brandIds: [this.selectedBrandId],
         page: this.pageConfig.current,
         limit: this.pageConfig.pageSize,
