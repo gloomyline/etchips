@@ -303,6 +303,7 @@ export default {
           message: response.msg,
           onClose() {
             self.isLoginShown = false;
+            self.$emit('login', self.token);
           },
         });
       } else {
@@ -350,6 +351,7 @@ export default {
           message: '登出成功！',
           onClose() {
             self.isLogoutShown = false;
+            self.$emit('logout');
             if (self.$route.meta.requireAuth) {
               self.$router.push({ name: 'Home' });
             }

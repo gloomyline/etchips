@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="material-detail">
-    <et-nav></et-nav>
+    <et-nav @logout="updateUserStatus" @login="updateUserStatus"></et-nav>
     <et-search-box></et-search-box>
     <div id="material-top-image" class="material-top-image">
       <div class="top-image"></div>
@@ -46,27 +46,24 @@
           <span class="dc">DC: {{ material.dc }}</span>
           <span class="coo">COO: {{ material.coo }}</span>
         </p>
-        <div class="cate-a">
-          <h3 class="title-a">A类产品</h3>
-          <div class="not-vip">
+        <div class="pictures">
+          <div class="not-vip pictures-a">
             <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
             <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
             <ul class="materials">
               <li class="material" v-for="item in material.picturesA" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
             </ul>
           </div>
-          <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
-        </div>
-        <div class="cate-b">
-          <h3 class="title-a">B类产品</h3>
-          <div class="not-vip">
-            <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
-            <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
-            <ul class="materials">
-              <li class="material" v-for="item in material.picturesB" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
-            </ul>
+          <div class="pictures-b">
+            <div class="not-vip" v-if="isAuthed">
+              <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
+              <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
+              <ul class="materials">
+                <li class="material" v-for="item in material.picturesB" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
+              </ul>
+            </div>
+            <div class="need-vip" v-else><img src="@/assets/img-vip-chips.png"></div>
           </div>
-          <div class="need-vip"><img src="@/assets/img-vip-chips.png" alt=""></div>
         </div>
       </div>
     </div>
@@ -83,10 +80,12 @@ export default {
     return {
       material: {},
       materials: [],
+      isAuthed: false,
     };
   },
   created() {
     this.fetchMaterial();
+    this.updateUserStatus();
   },
   methods: {
     async fetchMaterial() {
@@ -107,6 +106,9 @@ export default {
     previous() {
     },
     next() {
+    },
+    updateUserStatus() {
+      this.isAuthed = !!(this.$utils.cookie.get('token'));
     },
   },
 };

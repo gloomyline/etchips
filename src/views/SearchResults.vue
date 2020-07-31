@@ -172,8 +172,8 @@ export default {
           align-items: center
           justify-content: space-between
           .brand-item
-            width: 190px
-            height: 60px
+            width: 220px
+            height: 36px
             padding: 10px
             color: $blue
             border-radius: 8px
@@ -183,9 +183,9 @@ export default {
               color: $white
               background-color: $blue
       .carousel-previous
-        absolute: left 1.5% top 20px
+        absolute: left 1.5% top 10px
       .carousel-next
-        absolute: right 2.5% top 20px
+        absolute: right 2.5% top 10px
       .el-carousel__arrow
         color: $grey2
         font-size: 48px
