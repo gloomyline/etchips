@@ -82,7 +82,7 @@ export default {
           font-size: 14px
           color: $blue
           border-radius: 4px
-          background-color: $grey
+          background-color: $grey4
           &:first-child
             margin-right: 10px
 </style>

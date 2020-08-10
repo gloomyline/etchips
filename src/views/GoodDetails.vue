@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="material-detail">
-    <et-nav @logout="updateUserStatus" @login="updateUserStatus"></et-nav>
+    <et-nav ref="login" @logout="updateUserStatus" @login="updateUserStatus"></et-nav>
     <et-search-box></et-search-box>
     <div id="material-top-image" class="material-top-image">
       <div class="top-image"></div>
@@ -14,9 +14,9 @@
         </div>
         <div class="material-bottom-right">
           <div class="material-bottom-right-container">
-            <p class="desc1">{{ material.brand && material.brand.brandName }}</p>
-            <p class="desc2">{{ material.supplier && material.supplier.supplierName }}</p>
-            <p class="desc3">{{ material.materialNumber }}</p>
+            <div class="material-type"><span class="label">产品型号：</span><span class="value">{{ material.brand && material.brand.brandName }}</span></div>
+            <div class="supplier"><span class="label">制造商：</span><span class="value">{{ material.supplier && material.supplier.supplierName }}</span></div>
+            <div class="desc"><span class="label">说明：</span><span class="value">{{ material.materialNumber }}</span></div>
           </div>
         </div>
       </div>
@@ -28,19 +28,43 @@
         <div class="material-bottom-left">
           <div class="wrap inline-center">
             <h3 class="title">产品规格说明书</h3>
-            <a v-for="item in material.products" @click.prevent="previewProduct(item.view)" :key="item.id" class="product">{{ item.title }}</a>
+            <div class="links-container" v-if="material.products && material.products.length > 0">
+            <a v-for="item in material.products" @click.prevent="previewProduct(item.view)" :key="item.id" class="product">{{ item.title }}</a></div>
+            <p class="no-data" v-else>暂无</p>
           </div>
         </div>
         <div class="material-bottom-right">
           <div class="wrap inline-center">
             <h3 class="title">pcn列表</h3>
-            <a v-for="item in material.specificats" @click.prevent="previewSpecification(item.view)" :key="item.id" class="specification">{{ item.title }}</a>
+            <div class="links-container" v-if="material.specificats && material.specificats.length > 0">
+            <a v-for="item in material.specificats" @click.prevent="previewSpecification(item.view)" :key="item.id" class="specification">{{ item.title }}</a></div>
+            <p class="no-data" v-else>暂无</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="materialList">
+      <el-form :model="searchForm" inline>
+        <el-form-item prop="dc" label="DC（年份）">
+          <el-select v-model="searchForm.dc" placeholder="请选择年份">
+            <el-option
+              v-for="item in dcs"
+              :key="item"
+              :label="item"
+              :value="item"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="coo" label="COO（产地）">
+          <el-select v-model="searchForm.coo" placeholder="请选择产地">
+            <el-option
+              v-for="item in coos"
+              :key="item"
+              :label="item"
+              :value="item"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
       <div class="material" v-for="material in materials" :key="material.id">
         <p class="dc-and-coo">
           <span class="dc">DC: {{ material.dc }}</span>
@@ -62,7 +86,10 @@
                 <li class="material" v-for="item in material.picturesB" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
               </ul>
             </div>
-            <div class="need-vip" v-else><img src="@/assets/img-vip-chips.png"></div>
+            <div class="need-vip" v-else>
+              <img src="@/assets/img-vip-chips.png">
+              <el-button type="danger" round @click="toBeVip">开通会员查看</el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -81,6 +108,12 @@ export default {
       material: {},
       materials: [],
       isAuthed: false,
+      searchForm: {
+        dc: '全部',
+        coo: '全部',
+      },
+      dcs: [],
+      coos: [],
     };
   },
   created() {
@@ -96,6 +129,14 @@ export default {
       this.materials = await api.home.fetchMaterial(payload);
       /* eslint-disable prefer-destructuring */
       this.material = this.materials[0];
+      const dcs = new Set(['全部']);
+      const coos = new Set(['全部']);
+      this.materials.forEach((material) => {
+        dcs.add(material.dc);
+        coos.add(material.coo);
+      });
+      this.dcs = Array.from(dcs);
+      this.coos = Array.from(coos);
     },
     previewProduct(view) {
       window.open(view, '_blank');
@@ -109,6 +150,9 @@ export default {
     },
     updateUserStatus() {
       this.isAuthed = !!(this.$utils.cookie.get('token'));
+    },
+    toBeVip() {
+      this.$refs.login.openDialog();
     },
   },
 };
@@ -136,8 +180,11 @@ export default {
 .material-container
   position: relative;
   color: #000;
-  width: 100%;
+  width: 80%;
   height: 400px
+  margin: 0 auto
+  &.hsBottom
+    height: 280px
   .material-top
     position: absolute;
     left: 0;
@@ -161,6 +208,7 @@ export default {
     .wrap
       width: 360px
       height: 240px
+      padding-top: 50px
       .title
         font-size: 24px
         font-weight: bold
@@ -187,28 +235,26 @@ export default {
       float: right;
       width: 50%;
       height: 100%;
-      position: relative
-    .material-bottom-right-container
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      height: 80%;
-      width: 100%;
-      transform: translateX(-50%) translateY(-50%);
-      .desc1
-        color: #333333;
-        font-size: 20px;
-        padding: 10px 0 5px 20px;
-      .desc2
-        color: rgb(247,53,89);
-        font-size: 36px;
-        padding: 0 0 0 20px;
-        font-font-weight: bold;
-      .desc3
-        margin-top: 60px;
-        color: #333333;
-        font-size: 26px;
-        padding: 0 0 5px 20px;
+      .material-bottom-right-container
+        width: 100%
+        height: 100%
+        padding-top: 80px
+        .supplier > .value
+          color: rgb(255, 153, 132)
+        .label
+          display: inline-block
+          width: 80px
+          height: 32px
+          line-height: 32px
+          text-align: right
+          margin-right: 20px
+          margin-bottom: 20px
+          font-size: 16px
+          font-weight: bold
+        .value
+          height: 32px
+          line-height: 32px
+          font-size: 14px
 .materialList
   width: 80%
   margin: 30px auto 0 auto
@@ -220,8 +266,15 @@ export default {
       margin-bottom: 10px
       .dc
         margin-right: 20px
-  .need-vip > img
-    width: 100%
+  .need-vip
+    position: relative
+    .el-button
+      position: absolute
+      left: 50%
+      top: 50%
+      transform: translate3d(-50%, -50%, 0)
+    img
+      width: 100%
   .not-vip
     position: relative
     width: 100%

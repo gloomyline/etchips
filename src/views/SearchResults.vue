@@ -5,32 +5,32 @@
     <el-divider></el-divider>
     <et-search-box v-model="searchContent" @change="search" @search="search"></et-search-box>
     <div class="results-list">
-      <div class="has-data" v-if="brands.length > 0">
+      <div class="has-data" v-if="brandList.length > 0">
         <div class="brands-filter">
           <h3 class="title">品牌筛选</h3>
           <div class="wrap">
-            <el-carousel ref="carousel" trigger="click" arrow="never" :autoplay="false" :loop="false" height="60px" indicator-position="none">
-              <el-carousel-item v-for="(item, index) in brands" :key="index">
-                <ul class="brand-list">
-                  <li class="brand-item"
-                    :class="{active: selectedBrandId === it.id}"
-                    v-for="(it, idx) in item"
-                    :key="idx" @click="selectBrand(it.id)">{{ it.brandName }}({{ it.level }})</li>
-                </ul>
-              </el-carousel-item>
-            </el-carousel>
-            <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
-            <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
-            <ul class="carousel-indicators">
-              <li class="indicator" v-for="item in (brands.length - 1)" :key="item"></li>
+            <ul class="display-list">
+              <li class="brand-item"
+                :class="{active: selectedBrandId === it.id}"
+                v-for="(it, idx) in displayList"
+                :key="idx" @click="selectBrand(it.id)">{{ it.brandName }}({{ it.level }})</li>
             </ul>
+            <div class="more-wrap" v-if="brandList.length > defaultDisplay">
+              <el-button type="text" @click="isBrandMore = !isBrandMore">{{ isBrandMore ? '收起' : '更多' }}</el-button>
+              <ul class="more" v-show="isBrandMore">
+                <li class="brand-item"
+                  :class="{active: selectedBrandId === it.id}"
+                  v-for="(it, idx) in moreBrands"
+                  :key="idx" @click="selectBrand(it.id)">{{ it.brandName }}({{ it.level }})</li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="product-list">
           <h3 class="title">显示{{ product.totalCount }}产品</h3>
           <el-table :data="product.list" stripe header-row-class-name="product-table-header" v-loading="tableLoading">
             <el-table-column label="图片" align="center" width="80">
-              <template slot-scope="scope"><img :src="scope.row.picturesA" alt="" width="64" height="64"></template>
+              <template slot-scope="scope"><img :src="scope.row.picturesA" @click="preview" alt="" width="64" height="64"></template>
             </el-table-column>
             <el-table-column label="物料" align="center" min-width="100">
               <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.brandName, scope.row.materialNumber)">{{ scope.row.materialNumber }}</a></template>
@@ -44,6 +44,11 @@
               <template slot-scope="scope">
                 <i class="el-icon-success" v-if="scope.row.checkPicExist"></i>
                 <i class="el-icon-error" v-else></i>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center" width="80">
+              <template slot-scope="scope">
+                <el-button type="primary" size="mini" @click="contrast(scope.row.imgUrl, scope.row.brandName, scope.row.materialNumber)">对比</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -75,7 +80,6 @@ export default {
   name: 'SearchResults',
   data() {
     return {
-      brands: [],
       selectedBrandId: null,
       product: {
         totalCount: '15, 000',
@@ -88,6 +92,11 @@ export default {
         pageSize: 10,
         total: null,
       },
+      defaultDisplay: 6,
+      brandList: [],
+      displayList: [],
+      moreBrands: [],
+      isBrandMore: false,
     };
   },
   watch: {
@@ -102,13 +111,11 @@ export default {
   },
   methods: {
     async fetchBrands() {
-      const brandList = await api.home.fetchBrands();
+      const brandList = (await api.home.fetchBrands()).filter((brand) => brand.level > 0);
       if (brandList.length <= 0) return;
-      // default brand is the first brand in brands
-      // this.selectedBrandId = brandList[0].id;
-      while (brandList.length > 0) {
-        this.brands.push(brandList.splice(0, 4));
-      }
+      this.brandList = [...brandList];
+      this.displayList = brandList.splice(0, this.defaultDisplay);
+      this.moreBrands = brandList;
     },
     async search() {
       this.tableLoading = true;
@@ -130,6 +137,8 @@ export default {
     next() {
       this.$refs.carousel.next();
     },
+    preview() {
+    },
     clickHandler() {
       console.log('apply data uploading!');
     },
@@ -141,6 +150,10 @@ export default {
     },
     selectBrand(brandId) {
       this.selectedBrandId = brandId;
+    },
+    contrast(imgUrl, brandName, materialNumber) {
+      this.$store.commit('addContrast', { imgUrl, brandName, materialNumber });
+      this.$store.commit('showContrastBar');
     },
   },
 };
@@ -154,16 +167,32 @@ export default {
   .el-divider--horizontal
     margin: 0
   .brands-filter
-    padding: 20px 0
+    width: 80%
+    margin: 0 auto
+    padding-top: 20px
     .title
-      width: 80%
-      margin: 0 auto
       margin-bottom: 20px
       fonts-size: 32px
     .wrap
       position: relative
       width: 90%
       margin: 0 auto
+      .display-list, .more
+        display: flex
+        flex-flow: wrap
+        .brand-item
+          padding: 4px 8px
+          margin-right: 16px
+          color: $grey
+          cursor: pointer
+          border-radius: 10px 10px
+          &.active
+            color: $white
+            background-color: $blue
+      .more-wrap
+        position: relative
+        .el-button
+          absolute: right -20px top -25px
       .el-carousel
         width: 90%
         margin: 0 auto
@@ -191,6 +220,8 @@ export default {
         font-size: 48px
         background-color: transparent
   .product-list
+    width: 80%
+    margin: 0 auto
     .product-table-header > th
       background: #FAFAFA
 </style>
@@ -204,5 +235,5 @@ export default {
     flex: 1
     .product-list
       .title
-        padding-top: 20px
+        padding-bottom: 10px
 </style>
