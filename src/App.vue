@@ -51,7 +51,9 @@ export default {
       this.$store.commit('delContrast', materialNumber);
     },
     contrastHandler() {
+      this.$store.dispatch('fetechContrastives');
       this.$router.push({ name: 'ContrastDetails' });
+      this.$store.commit('hideContrastBar');
     },
     clearHandler() {
       this.$store.commit('clearContrasts');

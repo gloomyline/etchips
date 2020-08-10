@@ -10,13 +10,13 @@
       <div class="material-top">基本信息</div>
       <div class="material-bottom">
         <div class="material-bottom-left">
-          <div class="material-bottom-left-container"><img src="@/assets/img-chip.png" width="360" height="200"></div>
+          <div class="material-bottom-left-container"><img :src="material.headPicturePath" width="360" height="200"></div>
         </div>
         <div class="material-bottom-right">
           <div class="material-bottom-right-container">
             <div class="material-type"><span class="label">产品型号：</span><span class="value">{{ material.brand && material.brand.brandName }}</span></div>
             <div class="supplier"><span class="label">制造商：</span><span class="value">{{ material.supplier && material.supplier.supplierName }}</span></div>
-            <div class="desc"><span class="label">说明：</span><span class="value">{{ material.materialNumber }}</span></div>
+            <div class="desc"><span class="label">物料编号：</span><span class="value">{{ material.materialNumber }}</span></div>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
             <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
             <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
             <ul class="materials">
-              <li class="material" v-for="item in material.picturesA" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
+              <li class="material" v-for="item in material.picturesA" :key="item.id"><img :src="item.path"></li>
             </ul>
           </div>
           <div class="pictures-b">
@@ -83,7 +83,7 @@
               <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
               <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
               <ul class="materials">
-                <li class="material" v-for="item in material.picturesB" :key="item.id"><div class="img-wrap"><img :src="item.path"></div></li>
+                <li class="material" v-for="item in material.picturesB" :key="item.id"><img :src="item.path"></li>
               </ul>
             </div>
             <div class="need-vip" v-else>
@@ -302,17 +302,12 @@ export default {
         flex-shrink: 0
         width: 120px
         height: 100px
-        padding-top: 18px
-        padding-left: 24px
+        padding-top: 4px
+        padding-left: 4px
         margin-right: 20px
         text-align: center
-        border-radius: 8px 8px
-        border: 1px solid $grey
-        .img-wrap
-          background: $grey
-          width: 72px
-          height: 64px
-          img
-            width: 100%
-            height: 100%
+        img
+          width: 100%
+          height: 100%
+          border-radius: 8px 8px
 </style>

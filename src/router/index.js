@@ -41,6 +41,11 @@ const routes = [
     component: () => import('@/views/ReportDownload.vue'),
     meta: { requireAuth: true },
   },
+  {
+    path: '/contrast-details',
+    name: 'ContrastDetails',
+    component: () => import('@/views/ContrastDetails.vue'),
+  },
 ];
 
 const router = new VueRouter({
