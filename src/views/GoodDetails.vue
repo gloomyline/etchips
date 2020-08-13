@@ -75,7 +75,7 @@
             <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
             <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
             <ul class="materials">
-              <li class="material" v-for="item in material.picturesA" :key="item.id"><img :src="item.path"></li>
+              <li class="material" v-for="item in material.picturesA" :key="item.id" @click="openContrast(item.path)"><img :src="item.path"></li>
             </ul>
           </div>
           <div class="pictures-b">
@@ -83,7 +83,7 @@
               <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
               <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
               <ul class="materials">
-                <li class="material" v-for="item in material.picturesB" :key="item.id"><img :src="item.path"></li>
+                <li class="material" v-for="item in material.picturesB" :key="item.id" @click="openContrast(item.path)"><img :src="item.path"></li>
               </ul>
             </div>
             <div class="need-vip" v-else>
@@ -93,6 +93,7 @@
           </div>
         </div>
       </div>
+      <et-contrast v-model="isContrastShown" :imgUrl="contrastImgUrl"></et-contrast>
     </div>
     <et-footer></et-footer>
   </div>
@@ -106,6 +107,7 @@ export default {
   data() {
     return {
       material: {},
+      allMaterials: [],
       materials: [],
       isAuthed: false,
       searchForm: {
@@ -114,11 +116,34 @@ export default {
       },
       dcs: [],
       coos: [],
+      isContrastShown: false,
+      contrastImgUrl: '',
     };
   },
   created() {
     this.fetchMaterial();
     this.updateUserStatus();
+  },
+  watch: {
+    searchForm: {
+      deep: true,
+      handler() {
+        if (this.searchForm.dc === '全部') {
+          if (this.searchForm.coo === '全部') {
+            this.materials = [...this.allMaterials];
+          } else {
+            this.materials = this.allMaterials.filter((material) => material.coo === this.searchForm.coo);
+          }
+        } else {
+          /* eslint-disable no-lonely-if */
+          if (this.searchForm.coo === '全部') {
+            this.materials = this.allMaterials.filter((material) => material.dc === this.searchForm.dc);
+          } else {
+            this.materials = this.allMaterials.filter((material) => material.dc === this.searchForm.dc && material.coo === this.searchForm.coo);
+          }
+        }
+      },
+    },
   },
   methods: {
     async fetchMaterial() {
@@ -126,7 +151,8 @@ export default {
         brandName: this.$route.query.brandName,
         materialNumber: this.$route.query.materialNumber,
       };
-      this.materials = await api.home.fetchMaterial(payload);
+      this.allMaterials = await api.home.fetchMaterial(payload);
+      this.materials = [...this.allMaterials];
       /* eslint-disable prefer-destructuring */
       this.material = this.materials[0];
       const dcs = new Set(['全部']);
@@ -153,6 +179,10 @@ export default {
     },
     toBeVip() {
       this.$refs.login.openDialog();
+    },
+    openContrast(imgUrl) {
+      this.contrastImgUrl = imgUrl;
+      this.isContrastShown = true;
     },
   },
 };
