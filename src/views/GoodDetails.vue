@@ -65,25 +65,27 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <div class="material" v-for="material in materials" :key="material.id">
+      <div class="material-item" v-for="material in materials" :key="material.id">
         <p class="dc-and-coo">
           <span class="dc">DC: {{ material.dc }}</span>
           <span class="coo">COO: {{ material.coo }}</span>
         </p>
         <div class="pictures">
           <div class="not-vip pictures-a">
+            <h3 class="title">A类材料图片</h3>
             <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
             <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
             <ul class="materials">
-              <li class="material" v-for="item in material.picturesA" :key="item.id" @click="openContrast(item.path)"><img :src="item.path"></li>
+              <li class="material" v-for="item in material.picturesA" :key="item.id" @click="openContrast(material.picturesA, item.id)"><img :src="item.path"></li>
             </ul>
           </div>
           <div class="pictures-b">
+            <h3 class="title" style="width: 86%; margin: 0 auto 10px;">B类材料图片</h3>
             <div class="not-vip" v-if="isAuthed">
               <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
               <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
               <ul class="materials">
-                <li class="material" v-for="item in material.picturesB" :key="item.id" @click="openContrast(item.path)"><img :src="item.path"></li>
+                <li class="material" v-for="item in material.picturesB" :key="item.id" @click="openContrast(material.picturesB, item.id)"><img :src="item.path"></li>
               </ul>
             </div>
             <div class="need-vip" v-else>
@@ -93,7 +95,7 @@
           </div>
         </div>
       </div>
-      <et-contrast v-model="isContrastShown" :imgUrl="contrastImgUrl"></et-contrast>
+      <et-contrast v-model="isContrastShown" :imgs="contrastImgUrls" :selected-id="contrastId"></et-contrast>
     </div>
     <et-footer></et-footer>
   </div>
@@ -117,7 +119,8 @@ export default {
       dcs: [],
       coos: [],
       isContrastShown: false,
-      contrastImgUrl: '',
+      contrastImgUrls: [],
+      contrastId: null,
     };
   },
   created() {
@@ -180,8 +183,15 @@ export default {
     toBeVip() {
       this.$refs.login.openDialog();
     },
-    openContrast(imgUrl) {
-      this.contrastImgUrl = imgUrl;
+    openContrast(imgs, contrastId) {
+      this.contrastImgUrls = imgs.map((item) => {
+        const newImg = {};
+        newImg.id = item.id;
+        newImg.name = item.name;
+        newImg.url = item.path;
+        return newImg;
+      });
+      this.contrastId = contrastId;
       this.isContrastShown = true;
     },
   },
@@ -288,16 +298,29 @@ export default {
 .materialList
   width: 80%
   margin: 30px auto 0 auto
-  .material
+  .title
+    font-size: 16px
+    color: $blue
+  .material-item
+    border: 1px solid $grey2
+    margin-bottom: 10px
+    &:last-child
+      margin-bottom: 0
     .dc-and-coo
       width: 100%
+      height: 48px
+      line-height: 48px
+      padding-left: 20px
       font-size: 16px
       font-weight: bold
       margin-bottom: 10px
+      background-color: $yellow
       .dc
         margin-right: 20px
   .need-vip
     position: relative
+    width: 86%
+    margin: 0 auto
     .el-button
       position: absolute
       left: 50%
@@ -307,8 +330,8 @@ export default {
       width: 100%
   .not-vip
     position: relative
-    width: 100%
-    margin-bottom: 20px
+    width: 86%
+    margin: 0 auto 20px
     .carousel-next
       absolute: right -70px top 70px
       height: 64px
@@ -329,15 +352,18 @@ export default {
       overflow-x: auto
       padding: 20px 0
       .material
-        flex-shrink: 0
-        width: 120px
+        position: relative
+        width: 200px
         height: 100px
-        padding-top: 4px
-        padding-left: 4px
         margin-right: 20px
-        text-align: center
+        overflow: hidden
         img
-          width: 100%
-          height: 100%
-          border-radius: 8px 8px
+          position: absolute
+          max-width: 100%
+          height: auto
+          top: 0
+          right: 0
+          bottom: 0
+          left: 0
+          margin: auto
 </style>

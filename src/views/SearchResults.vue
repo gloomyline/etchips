@@ -30,10 +30,10 @@
           <h3 class="title">显示{{ product.totalCount }}产品</h3>
           <el-table :data="product.list" stripe header-row-class-name="product-table-header" v-loading="tableLoading">
             <el-table-column label="图片" align="center" width="80">
-              <template slot-scope="scope"><img :src="scope.row.picturesA" @click="preview" alt="" width="64" height="64"></template>
+              <template slot-scope="scope"><img :src="scope.row.headPicturePath" @click="preview" alt="" width="64" height="64" style="cursor: pointer;"></template>
             </el-table-column>
             <el-table-column label="物料" align="center" min-width="100">
-              <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.brandName, scope.row.materialNumber)">{{ scope.row.materialNumber }}</a></template>
+              <template slot-scope="scope"><a @click="gotoGoodDetails(scope.row.brandName, scope.row.materialNumber)" style="cursor: pointer;">{{ scope.row.materialNumber }}</a></template>
             </el-table-column>
             <el-table-column label="品牌" align="center" min-width="80">
               <template slot-scope="scope"><span>{{ scope.row.brandName }}</span></template>
