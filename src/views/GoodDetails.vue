@@ -72,13 +72,12 @@
           <span class="coo">COO: {{ material.coo }}</span>
         </p>
         <div class="pictures">
-          <div v-if="isopenAlbum"><et-compare :scrollT="scrollT" ></et-compare></div>
-          <!-- <div v-if="isopencompare"><et-compare ></et-compare></div> -->
-          <div v-if="isopenAlbum" ><et-photo :isopenAlbum="isopenAlbum"  :picturesA="material.picturesA" @click-compare="clickcompare"></et-photo></div> 
+          <div v-if="isopenAlbum" >
+            <et-compare v-show="isopencompare" :scrollT="scrollT" @close="closeHandler"></et-compare>
+            <et-photo :isopenAlbum="isopenAlbum"  :picturesA="material.picturesA" @click-compare="clickcompare"></et-photo>
+          </div> 
           <div class="not-vip pictures-a">
             <h3 class="title">A类材料图片</h3>
-            
-            
             <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
             <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
             <ul class="materials">
@@ -104,8 +103,6 @@
       <!-- <et-contrast v-model="isContrastShown" :imgs="contrastImgUrls" :selected-id="contrastId"></et-contrast> -->
     </div>
     <et-footer ></et-footer>
-
-    
   </div>
 </template>
 
@@ -204,10 +201,14 @@ export default {
       console.log("this.isopencompare",this.isopencompare)
       console.log(data)
     },
+    closeHandler() {
+      console.log(111111111);
+      this.isopencompare = false;
+    },
     handleScroll(e){
-       var scrollT=document.body.scrollTop==0?document.documentElement.scrollTop:document.body.scrollTop;
+       // var scrollT=document.body.scrollTop==0?document.documentElement.scrollTop:document.body.scrollTop;
       //  console.log("scrollT",scrollT)
-       this.scrollT=scrollT
+       // this.scrollT=scrollT
     },
     
     previewProduct(view) {

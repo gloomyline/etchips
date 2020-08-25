@@ -21,7 +21,8 @@
 		    </div>
 		</div>
 	</div> -->
-	<div class="close">×</div>
+	<div class="close" @click="closeHandler">×</div>
+  <!-- <el-button icon="el-icon-close" type="primary" @click="closeHandler"></el-button> -->
 	<div class="floatdiv">
 		<ul id="picContainer">
 			<li style='cursor:pointer;' id="li001">
@@ -65,38 +66,21 @@ export default {
 	},
 	created(){
 		console.log("我是etcompare")
-		
 	},
+  mounted(){
+    /*顶部小图左右滑动生成*/
+    // this.childScrollTop = this.scrollT
+    console.log("this.$refs.pic_contrast所有",this.$refs.pic_contrast.scrollTop)
+    console.log("this=--------",this)
+  },
 	destroyed(){
 		this.$emit('click-compare',false)
 	},
 	watch:{
     scrollT(newValue,oldVal){
 			console.log("我是子组件top",newValue)
-            this.$refs.pic_contrast.$el.style.top = newValue;
-        
-    }},
-    mounted(){
-		/*顶部小图左右滑动生成*/
-		// this.childScrollTop = this.scrollT
-		console.log("this.$refs.pic_contrast所有",this.$refs.pic_contrast.scrollTop)
-		console.log("this=--------",this)
-        // console.log("$11111",$)
-        // sconsole.log("new",new Swiper())
-        // $(document).ready(function(){
-		// 	// debugger;
-        //     var galleryThumbs = new Swiper('.gallery-thumbs', {
-        //     spaceBetween: 10,
-        //     slidesPerView:"auto",
-        //     freeMode: true,
-        //     watchSlidesVisibility: true,
-        //     watchSlidesProgress: true,
-
-        //     });
-        //     /*图片对比区域获取窗口高度*/
-        //     var pic_contrast = document.body.offsetHeight;
-		// 	$(".pic_contrast").height(pic_contrast);	
-        // });
+      this.$refs.pic_contrast.$el.style.top = newValue;
+    },
 	},
 	methods:{
 		actionplan0(e) {
@@ -105,7 +89,10 @@ export default {
 		// debugger
 		// actionplan(e.target);
 		// actionplan
-		}
+		},
+    closeHandler() {
+      this.$emit('close');
+    },
 		// actionplan(e){
 		// 	console.log("e",e.target.value) 
 		// 	var planid=e.target.id 
@@ -135,7 +122,6 @@ export default {
 		// actionplan(e){
 		// 	console.log("e",e)
 		// }
-	
 	}
 }
 </script>
@@ -155,13 +141,16 @@ table {
 	border-collapse:collapse;
 	border-spacing:0;
 }
-/* .pic_contrast{
-	position:relative;
-	z-index:10000;
-	 height:100%; 
-	width:100%;
-	box-sizing:border-box;
-} */
+.pic_contrast{
+  position: fixed;
+  top:0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index:200000;
+  overflow-y:auto;
+  background:#C4C4Cd;
+}
 .pic_contrast .close{
 	position:absolute;
 	top:3%;
@@ -172,6 +161,7 @@ table {
 	background:#999;
 	height:50px;
 	width:50px;
+  z-index: inherit;
 }
 
 #picContainer {
@@ -365,9 +355,7 @@ table {
 	margin: 0;
 	display: block;
 }
-.pic_contrast{background: rgba(0,0,0,0.7); position: absolute; top:0; left: 0; right: 0; margin: 0 auto;  z-index:200000; display: block; overflow-y:auto; background:#C4C4Cd; }
 .materialList .not-vip{
 	position:static !important;
 }
-
 </style>
