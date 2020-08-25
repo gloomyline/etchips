@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack')
 
 module.exports = {
   publicPath: './',
@@ -15,6 +16,16 @@ module.exports = {
         },
       },
     },
+  },
+  lintOnSave: false,
+  configureWebpack: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "windows.jQuery": "jquery"
+      })
+    ]
   },
   pluginOptions: {
     'style-resources-loader': {

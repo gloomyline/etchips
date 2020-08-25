@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="material-detail">
+    
     <et-nav ref="login" @logout="updateUserStatus" @login="updateUserStatus"></et-nav>
     <et-search-box></et-search-box>
     <div id="material-top-image" class="material-top-image">
@@ -71,12 +72,17 @@
           <span class="coo">COO: {{ material.coo }}</span>
         </p>
         <div class="pictures">
+          <div v-if="isopenAlbum"><et-compare :scrollT="scrollT" ></et-compare></div>
+          <!-- <div v-if="isopencompare"><et-compare ></et-compare></div> -->
+          <div v-if="isopenAlbum" ><et-photo :isopenAlbum="isopenAlbum"  :picturesA="material.picturesA" @click-compare="clickcompare"></et-photo></div> 
           <div class="not-vip pictures-a">
             <h3 class="title">A类材料图片</h3>
+            
+            
             <button class="el-carousel__arrow carousel-previous" @click="previous"><i class="el-icon-caret-left"></i></button>
             <button class="el-carousel__arrow carousel-next" @click="next"><i class="el-icon-caret-right"></i></button>
             <ul class="materials">
-              <li class="material" v-for="item in material.picturesA" :key="item.id" @click="openContrast(material.picturesA, item.id)"><img :src="item.path"></li>
+              <li class="material" v-for="item in material.picturesA" :key="item.id" @click="openAlbum"><img :src="item.path"></li>
             </ul>
           </div>
           <div class="pictures-b">
@@ -95,19 +101,28 @@
           </div>
         </div>
       </div>
-      <et-contrast v-model="isContrastShown" :imgs="contrastImgUrls" :selected-id="contrastId"></et-contrast>
+      <!-- <et-contrast v-model="isContrastShown" :imgs="contrastImgUrls" :selected-id="contrastId"></et-contrast> -->
     </div>
-    <et-footer></et-footer>
+    <et-footer ></et-footer>
+
+    
   </div>
 </template>
 
 <script>
 import api from '@/api';
 
+import etPhoto from '@/components/etPhoto';
+import etCompare from '@/components/etCompare';
+
 export default {
   name: 'MaterialDetail',
   data() {
     return {
+      scrollT:0,
+      isopencompare:false,
+      typeAimgs: [],
+      isopenAlbum:false,
       material: {},
       allMaterials: [],
       materials: [],
@@ -123,11 +138,27 @@ export default {
       contrastId: null,
     };
   },
+  components: {
+    etPhoto,
+    etCompare
+  },
   created() {
     this.fetchMaterial();
     this.updateUserStatus();
+    console.log("$",$)
+  },
+  mounted(){
+    window.addEventListener("scroll", this.handleScroll, true)
   },
   watch: {
+    isopencompare(newValue,oldValue){
+      console.log("newValue",newValue)
+    },
+
+    isopenAlbum(newValue,oldValue){
+      console.log("newValue",newValue)
+      console.log("isopenAlbue",this.isopenAlbum)
+    },
     searchForm: {
       deep: true,
       handler() {
@@ -150,11 +181,12 @@ export default {
   },
   methods: {
     async fetchMaterial() {
-      const payload = {
+        this.payload = {
         brandName: this.$route.query.brandName,
         materialNumber: this.$route.query.materialNumber,
       };
-      this.allMaterials = await api.home.fetchMaterial(payload);
+      console.log("this.payload11111111",this.payload)
+      this.allMaterials = await api.home.fetchMaterial(this.payload);
       this.materials = [...this.allMaterials];
       /* eslint-disable prefer-destructuring */
       this.material = this.materials[0];
@@ -167,6 +199,17 @@ export default {
       this.dcs = Array.from(dcs);
       this.coos = Array.from(coos);
     },
+    clickcompare(data){
+      this.isopencompare = true
+      console.log("this.isopencompare",this.isopencompare)
+      console.log(data)
+    },
+    handleScroll(e){
+       var scrollT=document.body.scrollTop==0?document.documentElement.scrollTop:document.body.scrollTop;
+      //  console.log("scrollT",scrollT)
+       this.scrollT=scrollT
+    },
+    
     previewProduct(view) {
       window.open(view, '_blank');
     },
@@ -183,6 +226,9 @@ export default {
     toBeVip() {
       this.$refs.login.openDialog();
     },
+    openAlbum(){
+      this.isopenAlbum= !this.isopenAlbum
+    },
     openContrast(imgs, contrastId) {
       this.contrastImgUrls = imgs.map((item) => {
         const newImg = {};
@@ -192,7 +238,7 @@ export default {
         return newImg;
       });
       this.contrastId = contrastId;
-      this.isContrastShown = true;
+      this.isContrastShown = this.isContrastShown;
     },
   },
 };

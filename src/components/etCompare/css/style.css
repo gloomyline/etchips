@@ -1,0 +1,200 @@
+@charset "utf-8";
+* {
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+a, img {
+	border:0;
+}
+body{ height: 100%;}
+html{height: 100%;}
+table {
+	empty-cells:show;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+.demo {
+	width:100%;
+	margin:0 auto;
+	height: 94px;
+	overflow: hidden;
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	z-index: 20008;
+}
+.demo table th {
+	background:#eeeeee;
+}
+.demo table th, .demo table td {
+	border:solid 1px #ddd;
+	text-align:center;
+	padding:10px 0;
+	font-size:12px;
+	line-height:20px;
+}
+/* floatdiv */
+.floatdiv {
+	position:relative;
+	z-index:9999;
+	width:100%;
+}
+*html, *html body /* 修正IE6振动bug */ {
+	background-image:url(about:blank);
+	background-attachment:fixed;
+}
+*html .floatdiv {
+	position:absolute;
+top:expression(eval(document.documentElement.scrollTop));
+}
+.floatdiv {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin: 92px auto 0 auto;
+}
+.floatdiv h5 {
+	color:#fff;
+	font-size:12px;
+	height:30px;
+	line-height:30px;
+	padding:0 0 0 10px;
+}
+.floatdiv h5 a {
+	float:right;
+	margin:1px 0 0 0;
+	display:inline;
+}
+.floatdiv h5 a img{ height: 30px;}
+.floatdiv ul {
+	height:auto;
+	overflow:hidden;
+	padding:10px 10px 100px 20px;
+}
+.floatdiv ul li {
+	 display: inline-block;
+	font-size:12px;
+	position: relative;
+	width:45%;
+	height: 300px;
+	overflow: hidden;
+	margin:0 0 2% 3%;
+	text-align: center;
+}
+.floatdiv ul li img {
+	margin:0 3px 0 0;
+}
+
+.floatdiv ul li .close{
+	display: block;
+	position: absolute;
+	width:27px;
+	height: 24px;
+	right:5px;
+	top:0;
+	background:url(../images/close.png) center center no-repeat;
+	z-index: 999;
+	padding: 7px 0;
+}
+
+.positionButtonDiv {
+	color: #FFFFFF;
+	padding: 8px;
+	text-align: left;
+	position: absolute;
+	right:0;
+	top:0;
+	z-index: 20004;
+}
+.positionButtonDiv img{
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+.floatdiv ul li > .mousemove{
+    position: absolute;
+    cursor: move;
+    transform-origin: center;
+    -webkit-transform-origin: center;
+    -moz-transform-origin: center;
+    -ms-transform-origin: center;
+    -o-transform-origin: center;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    left: 0;
+    top: 0;
+    right:0; 
+    margin: 0 auto;
+    display: list-item;
+    list-style-type: none;
+}
+
+.floatdiv ul li > .mousemove > img{
+    display: inline-block;
+   vertical-align:middle;
+    cursor: move;
+}
+.gallery-thumbs .swiper-slide input{
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right:2px;
+    bottom:2px;
+    background-clip: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    vertical-align: text-bottom;
+    -webkit-transition: background-color .25s;
+    transition: background-color .25s;
+    background-color: rgba(255,255,255,0);
+    border: none;
+    border-radius: 50%;
+    outline:none; 
+}
+.gallery-thumbs .swiper-slide input:checked{
+	background-color: #5868D9;
+    border-color: #5868D9;
+}
+.gallery-thumbs .swiper-slide input:checked:after{
+	content: '';
+    display: block;
+    height: 4px;
+    width: 7px;
+    border: 0 solid #333;
+    border-width: 0 0 2px 2px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-color: #fff;
+}
+.gallery-thumbs .swiper-slide label{
+	cursor: pointer;
+    display: block;
+}
+.gallery-thumbs .swiper-slide label:checked{
+	border:1px #5868D9 solid;
+}
+
+.gallery-thumbs {
+    box-sizing: border-box;
+    padding: 10px 15px;
+    background: white;
+}
+.gallery-thumbs .swiper-slide {
+    width: auto;
+    background: white;
+    border:1px #ddd solid;
+    cursor: pointer;
+}
+.gallery-thumbs .swiper-slide img{
+	height: 70px;
+	padding: 0;
+	margin: 0;
+	display: block;
+}
+.pic_contrast{background: rgba(0,0,0,0.7); position: absolute; top:0; left: 0; right: 0; margin: 0 auto;  z-index: 20002; display: block; overflow-y:auto; }
