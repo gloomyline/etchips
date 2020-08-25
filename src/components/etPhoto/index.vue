@@ -235,7 +235,7 @@ body {
 #zoom-visualizer .footer #listagem-imagens .item-zoom-imag {padding-right:20px;}
 #zoom-visualizer .footer #listagem-imagens .item-zoom-image img{width:200px;}
 
-#zoom-visualizer .lightbox-ofertas-bg{position:fixed; width: 100%; height: 100%; z-index: 5000;}
+#zoom-visualizer .lightbox-ofertas-bg{position:fixed;background:#252525; width: 100%; height: 100%; z-index: 5000;}
 #zoom-visualizer .lightbox{ position: absolute;}
 #zoom-visualizer .galeria-fotos{display:none;}
 
