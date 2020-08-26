@@ -73,7 +73,7 @@
         </p>
         <div class="pictures">
           <div v-if="isopenAlbum" >
-            <et-compare v-show="isopencompare" :scrollT="scrollT" @close="closeHandler"></et-compare>
+            <et-compare v-show="isopencompare" :comparepicUrl="comparepicUrl" :scrollT="scrollT" @close="closeHandler"></et-compare>
             <et-photo :isopenAlbum="isopenAlbum"  :picturesA="material.picturesA" @click-compare="clickcompare"></et-photo>
           </div> 
           <div class="not-vip pictures-a">
@@ -117,6 +117,7 @@ export default {
   data() {
     return {
       scrollT:0,
+      comparepicUrl:"",
       isopencompare:false,
       typeAimgs: [],
       isopenAlbum:false,
@@ -196,8 +197,11 @@ export default {
       this.dcs = Array.from(dcs);
       this.coos = Array.from(coos);
     },
-    clickcompare(data){
-      this.isopencompare = true
+    clickcompare(data,data2){
+      console.log("clickcompare data``````",data,data2)
+      this.isopencompare = data
+      this.comparepicUrl = data2
+
       console.log("this.isopencompare",this.isopencompare)
       console.log(data)
     },

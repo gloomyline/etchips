@@ -22,13 +22,13 @@
 		</div>
 	</div> -->
 	<div class="close" @click="closeHandler">×</div>
-  <!-- <el-button icon="el-icon-close" type="primary" @click="closeHandler"></el-button> -->
+    <!-- <el-button icon="el-icon-close" type="primary" @click="closeHandler"></el-button> -->
 	<div class="floatdiv">
 		<ul id="picContainer">
-			<li style='cursor:pointer;' id="li001">
+			<li style='cursor:pointer;' id="li001" class="part1">
 				<!-- <span class='close' style='cursor: hand' ></span> -->
 				<div class='mousemove'>
-					<img  class='picture1' src="./images/pic.png"></img>
+					<img  class='picture1' :src="comparepicUrl"></img>
 				</div>
 				<div class='positionButtonDiv' style='top:0;right:24px' data-img="li001" >
 				<img style='cursor: hand' class='zoomInButton' src='./images/zoomIn.png' title='zoom in' alt='zoom in'>
@@ -37,17 +37,41 @@
 				<img style='cursor: hand' class='mask-clockwise' src='./images/right_rotat.png' title='右旋转' alt='右旋转'>
 			</div>
 			</li>
-			<li style='cursor:pointer;' id="li002">
+			<li class="part2">
+				<div>联动</div>
+			</li>
+			<li style='cursor:pointer;' id="li002" class="part3">
 				<!-- <span class='close' style='cursor: hand' ></span> -->
-				<div class='mousemove'>
+				
+
+				<template v-if="uploadImgUrl">
+					<span class='close' style='cursor: hand' @click="closepic"></span>
+					<div class='mousemove'>
+						<img  class='picture1' :src="uploadImgUrl"></img>
+					</div>
+					<div class='positionButtonDiv' style='top:0;right:24px' data-img="li002" >
+						<img style='cursor: hand' class='zoomInButton' src='./images/zoomIn.png' title='zoom in' alt='zoom in'>
+						<img style='cursor: hand' class='zoomOutButton' src='./images/zoomOut.png' title='zoom out' alt='zoom out'>
+						<img style='cursor: hand' class='mask-counterclockwise' src='./images/left_rotat.png' title='左旋转' alt='左旋转'>
+						<img style='cursor: hand' class='mask-clockwise' src='./images/right_rotat.png' title='右旋转' alt='右旋转'>
+					</div>
+				</template>
+				<template v-else>
+					<div class="upload">
+						<input ref="fileInput" type="file" name="file" style="visibility: hidden;">
+						<i class="icon-upload el-icon-plus" @click="upload"></i>
+					</div>
+				</template> 
+
+				<!-- <div class='mousemove'>
 					<img  class='picture1' src="./images/pic1.png"></img>
 				</div>
 				<div class='positionButtonDiv' style='top:0;right:24px' data-img="li002" >
-				<img style='cursor: hand' class='zoomInButton' src='./images/zoomIn.png' title='zoom in' alt='zoom in'>
-				<img style='cursor: hand' class='zoomOutButton' src='./images/zoomOut.png' title='zoom out' alt='zoom out'>
-				<img style='cursor: hand' class='mask-counterclockwise' src='./images/left_rotat.png' title='左旋转' alt='左旋转'>
-				<img style='cursor: hand' class='mask-clockwise' src='./images/right_rotat.png' title='右旋转' alt='右旋转'>
-			</div>
+					<img style='cursor: hand' class='zoomInButton' src='./images/zoomIn.png' title='zoom in' alt='zoom in'>
+					<img style='cursor: hand' class='zoomOutButton' src='./images/zoomOut.png' title='zoom out' alt='zoom out'>
+					<img style='cursor: hand' class='mask-counterclockwise' src='./images/left_rotat.png' title='左旋转' alt='左旋转'>
+					<img style='cursor: hand' class='mask-clockwise' src='./images/right_rotat.png' title='右旋转' alt='右旋转'>
+				</div> -->
 			</li>
 		</ul> 	
 	</div>
@@ -55,43 +79,80 @@
 </div>
 </template>
 <script>
-import {isopen,hidediv,showdiv,actionplan,delplan,picto} from './js/script.js'
+import {picto} from './js/script.js'
 // import Swiper from'./js/swiper.min.js'
 export default {
-	props:["scrollT"],
+	props:["scrollT","comparepicUrl"],
 	data(){
 		return {
+			comparepic:"",
+			uploadImgUrl:"",
 			isopen:false
 		}
 	},
 	created(){
 		console.log("我是etcompare")
 	},
+	updated(){
+		console.log("update我执行了吗")
+		var pp2='#li002'
+		picto($("#li002 .picture1"),pp2)
+	},
   mounted(){
     /*顶部小图左右滑动生成*/
     // this.childScrollTop = this.scrollT
     console.log("this.$refs.pic_contrast所有",this.$refs.pic_contrast.scrollTop)
-    console.log("this=--------",this)
+	console.log("this=--------",this)
+	
+	var pp='#li001'
+	picto($("#li001 .picture1"),pp)
+	// var pp2='#li002'
+	// picto($("#li002 .picture1"),pp2)
   },
 	destroyed(){
 		this.$emit('click-compare',false)
 	},
 	watch:{
     scrollT(newValue,oldVal){
-			console.log("我是子组件top",newValue)
+	  console.log("我是子组件top",newValue)
       this.$refs.pic_contrast.$el.style.top = newValue;
     },
+	uploadImgUrl(newValue,oldValue){
+		// console.log("newValue",newValue,"oldValue",oldValue)
+		// if(newValue){
+			
+		// }
+	}
+	
 	},
 	methods:{
-		actionplan0(e) {
-		var str=`#${e.target.id}`;
-		console.log("actionplan",actionplan)
-		// debugger
-		// actionplan(e.target);
-		// actionplan
-		},
+		// actionplan0(e) {
+		// var str=`#${e.target.id}`;
+		// console.log("actionplan",actionplan)
+		// // debugger
+		// // actionplan(e.target);
+		// // actionplan
+		// },
+	closepic(){
+		this.uploadImgUrl=""
+	},
     closeHandler() {
       this.$emit('close');
+	},
+	
+	 upload() {
+      const { fileInput } = this.$refs;
+      fileInput.click();
+      fileInput.addEventListener('change', (e) => {
+        let targetImgUrl = '';
+        const uploadedFile = fileInput.files[0];
+        if (window.URL.createObjectURL) {
+          targetImgUrl = window.URL.createObjectURL(uploadedFile);
+        }
+		this.uploadImgUrl = targetImgUrl;
+		console.log("图片地址",this.uploadImgUrl)
+	
+      });
     },
 		// actionplan(e){
 		// 	console.log("e",e.target.value) 
@@ -134,6 +195,19 @@ export default {
 a, img {
 	border:0;
 }
+.upload{
+	position:relative;
+	height:100%;
+	width:100%;
+}
+.icon-upload.el-icon-plus{
+	font-size:120px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	
+}
 body{ height: 100%;}
 html{height: 100%;}
 table {
@@ -149,7 +223,7 @@ table {
   margin: 0 auto;
   z-index:200000;
   overflow-y:auto;
-  background:#C4C4Cd;
+  background:#252525;
 }
 .pic_contrast .close{
 	position:absolute;
@@ -161,11 +235,14 @@ table {
 	background:#999;
 	height:50px;
 	width:50px;
-  z-index: inherit;
+  	z-index: inherit;
 }
 
 #picContainer {
 	height:100%;
+	width:100%;
+}
+#picContainer li .mousemove img{
 	width:100%;
 }
 .demo {
@@ -229,15 +306,36 @@ table {
 	padding:10px 10px 100px 20px;
 }
 .floatdiv ul li {
-	background:crimson;
-	 display: inline-block;
+	background:#333;
+	display: inline-block;
 	font-size:12px;
 	position: relative;
-	width:45%;
 	height:500px;
 	overflow: hidden;
-	margin:10% 2%  0 3%;
+	margin:10% 0 0 0;
 	text-align: center;
+}
+.floatdiv ul li.part1{
+	width:45%;
+	box-sizing:border-box;
+}
+.floatdiv ul li.part2{
+	width:10%;
+	box-sizing:border-box;
+	padding-top:200px;
+	background:#252525;
+}
+.floatdiv ul li.part2 div{
+	width:100px;
+	height:40px;
+	background:#666;
+	margin: 0 auto;
+	line-height:40px;
+	color:#fff;
+}
+.floatdiv ul li.part3{
+	width:45%;
+	box-sizing:border-box;
 }
 .floatdiv ul li img {
 	margin:0 3px 0 0;
@@ -250,7 +348,7 @@ table {
 	width:27px;
 	height: 24px;
 	right:5px;
-	top:0;
+	top:7px;
 	background:url(./images/close.png) center center no-repeat;
 	z-index: 999;
 	padding: 7px 0;

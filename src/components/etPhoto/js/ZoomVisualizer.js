@@ -86,7 +86,7 @@
 
 			//prevent body from scroll
 			
-			// jQuery(document.body).css('overflow', 'hidden');
+			jQuery(document.body).css('overflow', 'hidden');
 
 			_imageLoad = wrapper_geral.find(".wrapper img").attr("src");
 			_wrapper = wrapper_geral.find(".wrapper");

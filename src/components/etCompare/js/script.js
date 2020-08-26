@@ -17,8 +17,8 @@ export function delplan(obj){
 	var id=parent.id; 
 	parent.parentNode.removeChild(parent); 
 	//去除选中的
-	var checkid="planid"+id.substr(2,id.length);
-	document.getElementById(checkid).checked=false;
+	// var checkid="planid"+id.substr(2,id.length);
+	// document.getElementById(checkid).checked=false;
 }
 
 //checkbox的点击
@@ -34,7 +34,7 @@ export function actionplan(obj){
 	addplan(planid,planname);
 }
 
-export function picto(obj){
+export function picto(obj,pp){
 	var zoom_n = 1;
 	//旋转
 	var spin_n = 0;
@@ -47,7 +47,7 @@ export function picto(obj){
 	});
 	
 	//缩放 放大
-	
+	console.log('scale');
 	obj.css({
 		"transform": "scale(" + zoom_n + ")",
 		"-moz-transform": "scale(" + zoom_n + ")",
@@ -73,7 +73,7 @@ export function picto(obj){
 		
 	});
 	//缩放 缩小
-
+	console.log('shrink')
 	$(pp +" .positionButtonDiv").find(".zoomOutButton").click(function (e) {
 		var target = e.target.offsetParent.getAttribute("data-img");
 		if(zoom_n>1){
@@ -114,6 +114,7 @@ export function picto(obj){
 	
 	//图片拖拽
 	   var $div_img = obj.parent(".mousemove");
+	   console.log('moveTarget', $div_img);
 	   //绑定鼠标左键按住事件
 	   $div_img.bind("mousedown", function (event) {
 		   event.preventDefault && event.preventDefault(); //去掉图片拖动响应
@@ -171,8 +172,9 @@ export function addplan(planid,planname){
 		var picheight=$(".floatdiv ul li").height();
 		$('#picContainer .picture1').height(picheight);
 		var pp='#li'+planid;
-		picto($(pp + " .picture1"));
-		function picto(obj){
+		picto($(pp + " .picture1"),pp);
+		function picto(obj,pp){
+			console("obj",obj,"pp",pp)
 			var zoom_n = 1;
 			//旋转
 			var spin_n = 0;
@@ -251,37 +253,37 @@ export function addplan(planid,planname){
 		
 			
 			//图片拖拽
-		       var $div_img = obj.parent(".mousemove");
-		       //绑定鼠标左键按住事件
-		       $div_img.bind("mousedown", function (event) {
-		           event.preventDefault && event.preventDefault(); //去掉图片拖动响应
-		           //获取需要拖动节点的坐标
-		           var offset_x = $(this)[0].offsetLeft;//x坐标
-		           var offset_y = $(this)[0].offsetTop;//y坐标
-		           //获取当前鼠标的坐标
-		           var mouse_x = event.pageX;
-		           var mouse_y = event.pageY;
-		           //绑定拖动事件
-		           $div_img.parent("li").bind("mousemove", function (ev) {
-		               // 计算鼠标移动了的位置
-		               var _x = ev.pageX - mouse_x;
-		               var _y = ev.pageY - mouse_y;
-		               //设置移动后的元素坐标
-		               var now_x = (offset_x + _x ) + "px";
-		               var now_y = (offset_y + _y ) + "px";
-		               //改变目标元素的位置
-		               $div_img.css({
-		                   top: now_y,
-		                   left: now_x
-		               });
-		           });
-		           
-		       });
-		       
-		       //当鼠标左键松开，接触事件绑定
-		       $div_img.parent("li").bind("mouseup", function () {
-		           $(this).unbind("mousemove");
-		       });
+			var $div_img = obj.parent(".mousemove");
+			//绑定鼠标左键按住事件
+			$div_img.bind("mousedown", function (event) {
+				event.preventDefault && event.preventDefault(); //去掉图片拖动响应
+				//获取需要拖动节点的坐标
+				var offset_x = $(this)[0].offsetLeft;//x坐标
+				var offset_y = $(this)[0].offsetTop;//y坐标
+				//获取当前鼠标的坐标
+				var mouse_x = event.pageX;
+				var mouse_y = event.pageY;
+				//绑定拖动事件
+				$div_img.parent("li").bind("mousemove", function (ev) {
+					// 计算鼠标移动了的位置
+					var _x = ev.pageX - mouse_x;
+					var _y = ev.pageY - mouse_y;
+					//设置移动后的元素坐标
+					var now_x = (offset_x + _x ) + "px";
+					var now_y = (offset_y + _y ) + "px";
+					//改变目标元素的位置
+					$div_img.css({
+						top: now_y,
+						left: now_x
+					});
+				});
+				
+			});
+			
+			//当鼠标左键松开，接触事件绑定
+			$div_img.parent("li").bind("mouseup", function () {
+				$(this).unbind("mousemove");
+			});
 		     
 		
 		}

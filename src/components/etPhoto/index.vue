@@ -48,7 +48,9 @@
       <div id="compare" @click="openCompare">对比图片</div>
       <div id="listagem-imagens">
         <div>
-            <a class="item-zoom-image" v-for="item in picturesA" :href="item.path" alt="0" :key="item.name"><img :src="item.path"> </a>
+            <a class="item-zoom-image" v-for="item in picturesA" :href="item.path" alt="0" :key="item.name">
+              <img :src="item.path"> 
+            </a>
             <!-- <a class="item-zoom-image " href="./img/camiseta_hombre_jackknife_negra.jpg" alt="99"><img src="./img/camiseta_hombre_jackknife_negra-thumb.jpg"> </a> -->
             <!-- <a class="item-zoom-image" href="./img/design.png" alt="1"><img src="./img/design-thumb.png"> </a>
             <a class="item-zoom-image" href="./img/camiseta_hombre_lumberjack_blanca.jpg" alt="2"> <img src="./img/camiseta_hombre_lumberjack_blanca-thumb.jpg"> </a>
@@ -79,7 +81,12 @@ export default {
     },
     methods:{
       openCompare(){
-        this.$emit('click-compare',true)
+
+        console.log(".item-zoom-image打开对比图片",$(".item-zoom-image.ativo")[0].href)
+        let comparepicUrl= $(".item-zoom-image.ativo")[0].href
+        this.$emit('click-compare',true,comparepicUrl)
+        
+        
       }
       
     },
