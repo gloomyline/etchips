@@ -129,6 +129,7 @@ export default {
           }
       });
     },
+    
 
 }
 </script>>
@@ -250,7 +251,7 @@ body {
 #zoom-visualizer #aba-lista span{ color:#999999; display:block; text-align:center; padding-top:5px; font-weight:400; font-size:12px;}
 #zoom-visualizer #aba-lista span:hover{ color:#ffffff;}
 
-#zoom-visualizer #compare{ position:absolute;width:90px; left:100%; top:-30px; margin-left:-100px; background:#FF0B4A; text-decoration:none;}
+#zoom-visualizer #compare{ position:absolute;width:90px; left:100%; top:-30px; margin-left:-100px; background:#409EFF; text-decoration:none;border-radius: 20px;text-align: center;color:#fff;height:25px;line-height:25px;}
 #zoom-visualizer #compare span{ color:#999999; display:block; text-align:center;  font-weight:400; font-size:12px;color:#fff;}
 #zoom-visualizer #compare span:hover{ color:#ffffff;}
 
