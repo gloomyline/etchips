@@ -146,7 +146,7 @@ export default {
     console.log("$",$)
   },
   mounted(){
-    window.addEventListener("scroll", this.handleScroll, true)
+    // window.addEventListener("scroll", this.handleScroll, true)
   },
   watch: {
     isopencompare(newValue,oldValue){

@@ -38,7 +38,7 @@
 			</div>
 			</li>
 			<li class="part2">
-				<div>联动</div>
+				<div @click="controlpic">联动</div>
 			</li>
 			<li style='cursor:pointer;' id="li002" class="part3">
 				<!-- <span class='close' style='cursor: hand' ></span> -->
@@ -85,6 +85,7 @@ export default {
 	props:["scrollT","comparepicUrl"],
 	data(){
 		return {
+			isControl:false,
 			comparepic:"",
 			uploadImgUrl:"",
 			isopen:false
@@ -97,12 +98,15 @@ export default {
 		console.log("update我执行了吗")
 		var pp2='#li002'
 		picto($("#li002 .picture1"),pp2)
+
+		
 	},
   mounted(){
     /*顶部小图左右滑动生成*/
     // this.childScrollTop = this.scrollT
     console.log("this.$refs.pic_contrast所有",this.$refs.pic_contrast.scrollTop)
 	console.log("this=--------",this)
+
 	
 	var pp='#li001'
 	picto($("#li001 .picture1"),pp)
@@ -122,7 +126,30 @@ export default {
 		// if(newValue){
 			
 		// }
-	}
+	},
+	isControl(newValue,oldVal){
+		if(newValue){
+			console.log("我要控制了呀")
+			console.log(" 有吗#li002 .positionButtonDiv-----",$("#li002>.positionButtonDiv").length)
+			if($("#li002 .positionButtonDiv").length>0){
+				console.log("哈哈哈全全合")
+				document.onclick = function(event)
+				{ 
+					var obj = event.srcElement; 
+					console.log("event.srcElement; ",obj)
+					if(obj.type == "img"){ 
+						alert("obj.class"); 
+					} 
+										
+				} 
+			}		 
+
+
+			}
+			
+
+		}
+	
 	
 	},
 	methods:{
@@ -138,6 +165,9 @@ export default {
 	},
     closeHandler() {
       this.$emit('close');
+	},
+	controlpic(){
+		this.isControl=!this.isControl
 	},
 	
 	 upload() {
@@ -240,10 +270,11 @@ table {
 
 #picContainer {
 	height:100%;
-	width:100%;
+	width:1380px;
+	margin:0 auto;
 }
 #picContainer li .mousemove img{
-	width:100%;
+   width: 600px;
 }
 .demo {
 	width:100%;
@@ -316,17 +347,18 @@ table {
 	text-align: center;
 }
 .floatdiv ul li.part1{
-	width:45%;
+	width:600px;
 	box-sizing:border-box;
 }
 .floatdiv ul li.part2{
-	width:10%;
+	width:140px;
 	box-sizing:border-box;
 	padding-top:200px;
 	background:#252525;
 }
 .floatdiv ul li.part2 div{
 	width:100px;
+
 	height:40px;
 	background:#666;
 	margin: 0 auto;
@@ -334,7 +366,7 @@ table {
 	color:#fff;
 }
 .floatdiv ul li.part3{
-	width:45%;
+	width:600px;
 	box-sizing:border-box;
 }
 .floatdiv ul li img {
