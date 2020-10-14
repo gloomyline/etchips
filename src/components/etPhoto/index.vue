@@ -45,7 +45,8 @@
     
     <div class="footer">
       <a href="#" id="aba-lista"><span>折叠缩略图</span></a>
-      <div id="compare" @click="openCompare">对比图片</div>
+      <el-button @click="openCompare" type="primary" style="position: absolute;right: 10px; top: -80px;">对比图片</el-button> 
+      <!-- <div id="compare" @click="openCompare">对比图片</div> -->
       <div id="listagem-imagens">
         <div>
             <a class="item-zoom-image" v-for="item in picturesList" :href="item.path" alt="0" :key="item.name">

@@ -34,7 +34,7 @@
 					<div class="upload">
 						<input ref="fileInput" type="file" name="file" style="visibility: hidden;">
 						<i class="icon-upload el-icon-plus" @click="upload"></i>
-					</div>
+					</dil>
 				</template> 
 			</li>
 		</ul> 	
@@ -139,6 +139,7 @@ table {
   top:0;
   left: 0;
   right: 0;
+  bottom: 0;
   margin: 0 auto;
   z-index:200000;
   overflow-y:auto;
