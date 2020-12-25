@@ -34,7 +34,7 @@
 					<div class="upload">
 						<input ref="fileInput" type="file" name="file" style="visibility: hidden;">
 						<i class="icon-upload el-icon-plus" @click="upload"></i>
-					</dil>
+					</div>
 				</template> 
 			</li>
 		</ul> 	

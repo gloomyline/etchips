@@ -46,6 +46,7 @@ export default {
     },
 
     gotoSearchResults() {
+      console.log("跳跳")
       this.$router.push({ name: 'SearchResults', query: { searchContent: this.searchContent } });
     },
   },

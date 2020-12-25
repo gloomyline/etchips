@@ -1,0 +1,222 @@
+<template lang="html">
+  <div class="container">
+
+
+    <eheader ></eheader>
+    
+
+
+
+  </div>
+</template>
+
+<script>
+import api from '@/api';
+
+export default {
+  name: 'Detect',
+  data() {
+    return {
+      form: {
+        brand: null,
+        coo: null,
+        dc: null,
+        materialNumber: null,
+        mobile: null,
+        name: null,
+      },
+      rules: {
+        brand: [{ required: true, trigger: 'blur', message: '请输入品牌' }],
+        coo: [{ required: true, trigger: 'blur', message: '请输入产地' }],
+        dc: [{ required: true, trigger: 'blur', message: '请输入dc' }],
+        materialNumber: [{ required: true, trigger: 'blur', message: '请输入料号' }],
+        mobile: [{ required: true, trigger: 'blur', message: '请输入手机号' }],
+        name: [{ required: true, trigger: 'blur', message: '请输入姓名' }],
+      },
+      loading: false,
+    };
+  },
+  methods: {
+    async submit() {
+      const self = this;
+      const validation = await this.$refs.form.validate();
+      if (!validation) return;
+      this.loading = true;
+      const response = await api.home.detect(this.form);
+      if (response.success) {
+        this.$message({
+          type: 'success',
+          message: response.msg,
+          onClose() {
+            self.$refs.form.resetFields();
+          },
+        });
+      } else {
+        this.$message({
+          type: 'error',
+          message: response.msg,
+        });
+      }
+      this.loading = false;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.container {
+  background:#f7f7f7;
+  position: relative;
+  .wrapper{
+    min-height: 700px;
+    padding:20px 0;
+    position: relative;
+    width:1164px;
+    left:0;
+    right:0;
+    margin:0 auto;
+    .content {
+      min-height: 700px;
+      margin:20px 0;
+      padding:50px;
+      background:#fff;
+      border:1px solid #e9e9e9;
+      .searchInfo {
+        color:#747474;
+        span {
+          color:red;
+          font-weight:bold;
+        }
+      }
+      .data {
+        padding:20px 0;
+        .brandSelect{
+          color:#747474;
+          display: flex;
+
+          justify-content: flex-start;
+          .title{
+            width:80px;
+          }
+          .tags{
+            flex:1;
+            width:1064px;
+            height:35px;
+            overflow:hidden;
+            ul {
+              overflow:auto;
+              height:auto;
+              
+              .brand-item{
+                color:#777;
+                float:left;
+                margin-right:10px;
+                background:#fafafa;
+                border:1px solid #e0dede;
+                border-radius:20px;
+                padding:5px 20px;
+                margin-bottom: 10px;
+              }
+              .brand-item.active{
+                background:#e60012;
+                border:1px solid #e60012;
+                color:#fff;
+              }
+              .brand-item:hover {
+                cursor: pointer;
+                background:#e60012;
+                border:1px solid #e60012;
+                color:#fff;
+              }
+
+            }
+          }
+          .tags.unfold{
+            height:auto;
+            overflow:auto;
+          }
+
+        }
+        .product-list{
+          margin-top:20px;
+          .title{
+            color:#777;
+            margin:10px 0;
+          }
+        }
+      }
+      .noData {
+        padding:20px 0;
+        min-height: 600px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .icon{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .iconfont{
+            font-size:80px;
+            color:#e7e7e7;
+          }
+        }
+        .tips {
+          margin-top:30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width:100%;
+          color:#8a8a8a;
+          span {
+            color:red;
+            font-weight:bold;
+          }
+        }
+        .btn{
+          margin-top:30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .hotsearch {
+          margin-top:30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .title{
+            width:120px;
+            color:#c9c9c9;
+            line-height:40px;
+            height:40px;
+          }
+          ul {
+            .item {
+              color:#777;
+              float:left;
+              height:40px;
+              line-height:40px;
+              box-sizing: border-box;
+              margin-right:10px;
+              background:#fff;
+              border:1px solid #e0dede;
+              border-radius:20px;
+              padding: 0 15px;
+              
+            }
+            .item:hover {
+              cursor: pointer;
+              background:#ffe7e7;
+              border:1px solid #e60012;
+              color:#e60012;
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+</style>

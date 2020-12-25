@@ -1,0 +1,13 @@
+
+@font-face {  
+   font-family: 'bannerFont'; 
+   src: url('./bannerFont.TTF'); 
+   font-weight: normal;  
+   font-style: normal;  
+  }
+@font-face {  
+    font-family: 'DINPro'; 
+    src: url('./DINPro-Regular.otf'); 
+    font-weight: normal;  
+    font-style: normal;  
+   }
