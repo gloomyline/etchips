@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18544861",
+      "name": "竖杠",
+      "font_class": "shugang",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "4487973",
+      "name": "图片",
+      "font_class": "tupian",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
       "icon_id": "6091064",
       "name": "竖幅",
       "font_class": "tubiao-shufu",

@@ -79,7 +79,8 @@
         <!-- ``````   -->
 
         </div>
-        <div class="noData" v-show="noData">
+        <!-- <div class="noData" v-show="noData"> -->
+          <div class="noData">
           <div class="icon">
             <span class="iconfont icon-nanguo"></span>
             
@@ -88,7 +89,7 @@
             很抱歉，没有找到 <span> “{{searchContent}}”　</span> 相关内容
           </div>
           <div class="btn">
-            <el-button type="primary" round>提交数据申请</el-button>
+            <el-button type="primary" round @click="submitDataApply">提交数据申请</el-button>
           </div>
           <div class="hotsearch">
             <div class="title">最近热门搜索</div>
@@ -104,6 +105,7 @@
         </div>
       </div>
     </div>
+    
     <efooter></efooter>
   </div> 
 </template>
@@ -195,6 +197,9 @@ export default {
     console.log("updated",this.$refs.brand)
   },
   methods: {
+    submitDataApply(){
+      this.$router.push({name: 'DataApply'})
+    },
     cancelRequest() {
       if (typeof this.source === 'function') {
         this.source()
