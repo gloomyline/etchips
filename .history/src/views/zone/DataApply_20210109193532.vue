@@ -28,11 +28,7 @@
             prop="statue"
             label="状态">
              <template slot-scope="scope">
-                <!-- 0待审批  1 通过   2  未通过  3已撤回 -->
-              <el-tag v-if='scope.row.statue==0'>待审批</el-tag>
-              <el-tag type="success" v-if='scope.row.statue==1'>通过</el-tag>
-              <el-tag type="danger" v-if='scope.row.statue==2'>未通过</el-tag>
-              <el-tag type="info" v-if='scope.row.statue==3'>已撤回</el-tag>
+              <el-tag v-if='scope.row.statue==4'>标签一</el-tag>
             </template> 
           </el-table-column>
           <el-table-column label="操作">
@@ -54,30 +50,7 @@
        
       </div>
     </div>
-    <!-- 对话框 -->
-    <el-dialog
-      title="删除提示"
-      :visible.sync="delectdialogVisible"
-      width="30%"
-      >
-      <span>您确定要删除这条申请数据吗</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="delAdrress(addressid)">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <el-dialog
-      title="撤回提示"
-      :visible.sync="canceldialogVisible"
-      width="30%"
-      >
-      <span>您确定要撤回这条申请数据吗</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="delAdrress(addressid)">确 定</el-button>
-      </span>
-    </el-dialog>
+   
   </div>
 </template>
 <script>

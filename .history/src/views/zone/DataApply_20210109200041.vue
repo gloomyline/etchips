@@ -57,7 +57,7 @@
     <!-- 对话框 -->
     <el-dialog
       title="删除提示"
-      :visible.sync="delectdialogVisible"
+      :visible.sync="dialogVisible"
       width="30%"
       >
       <span>您确定要删除这条申请数据吗</span>
@@ -69,7 +69,7 @@
 
     <el-dialog
       title="撤回提示"
-      :visible.sync="canceldialogVisible"
+      :visible.sync="dialogVisible"
       width="30%"
       >
       <span>您确定要撤回这条申请数据吗</span>

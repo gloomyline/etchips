@@ -56,23 +56,11 @@
     </div>
     <!-- 对话框 -->
     <el-dialog
-      title="删除提示"
-      :visible.sync="delectdialogVisible"
+      title="提示"
+      :visible.sync="dialogVisible"
       width="30%"
       >
       <span>您确定要删除这条申请数据吗</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="delAdrress(addressid)">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <el-dialog
-      title="撤回提示"
-      :visible.sync="canceldialogVisible"
-      width="30%"
-      >
-      <span>您确定要撤回这条申请数据吗</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="delAdrress(addressid)">确 定</el-button>
